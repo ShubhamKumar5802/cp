@@ -1,0 +1,47 @@
+void printBinary(int num){
+	fot(int i=10;i>=0;i--){
+		cout<<((num>>i)&1);
+	}
+}
+	
+	printBinary(num | (i<<i));    //to set i-th bit;
+	printBinary(num & ~(i<<i));   //to unset i-th bit;
+	printBinary(num ^ (i<<i));    //to toogle i-th bit;
+
+__builtin_popcount(num);              //count bit for integer;
+__builtin_popcountll(num);            //count bit for lonl long;  
+
+XOR(^) true or 1 for two distince value 1,0 and 0,1;
+
+left shift(<<)-> x<<y is equivalent to x*2^y;
+right shift(>>)-> x>>y is equivalent to x/2^y;
+
+2's compliment of number x in n bits system is equal to->2^n-x;
+	for finding the value of ~x
+		~1=-2,  1=00000000000000000000000000000001, fliping bits
+		       ~1=11111111111111111111111111111110, =2^32-1-1       (when all bits are 1, value will be 2^32-1);  now ~1 will use 2's compliment  2^32-1-1=2^n-x
+						    2^32-2=2^32-x           (as we are using 32-bit system)
+							x=-2 
+
+XOR(^) if we do z=(x^y)  and again do a=z^y, now value of a=x;
+X^X=0;
+X^0=X;
+
+
+turn ofF rightmost set bit-- n&(n-1);
+only rightmost set bit will on-- n&~(n-1); 
+turn off kth bit--(n & ~(1 << (k - 1)));
+position of rightmost set bit log2(n & -n) + 1;
+turn off LSB of upto kth place-- (n & (~((1<<(k+1)) - 1)));
+
+XOR of  1-to-n
+1- Find the remainder of n by moduling it with 4. 
+2- If rem = 0, then xor will be same as n. 
+3- If rem = 1, then xor will be 1. 
+4- If rem = 2, then xor will be n+1. 
+5- If rem = 3 ,then xor will be 0.
+
+int toggleKthBit(int n, int k)
+{
+    return (n ^ (1 << (k-1)));
+}

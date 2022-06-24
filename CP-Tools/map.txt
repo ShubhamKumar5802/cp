@@ -1,0 +1,30 @@
+ // empty map container
+    map<int, int> gquiz1;
+
+ // insert elements in random order
+    gquiz1.insert(pair<int, int>(1, 40));
+    gquiz1.insert(pair<int, int>(2, 30));
+    gquiz1.insert(pair<int, int>(3, 60));
+    gquiz1.insert(pair<int, int>(4, 20));
+    gquiz1.insert(pair<int, int>(5, 50));
+    gquiz1.insert(pair<int, int>(6, 50));
+    gquiz1.insert(pair<int, int>(7, 10));
+
+map<int, string, greater <int> > mymap;    //map in decreasing order;
+  
+    // Inserting the elements one by one
+    mymap.insert(make_pair(10, "queen"));
+    mymap.insert(make_pair(20, "rose"));
+    mymap.insert(make_pair(5," lion"));
+
+ // assigning the elements from gquiz1 to gquiz2
+    map<int, int> gquiz2(gquiz1.begin(), gquiz1.end());
+
+   find(g) function  Returns an iterator to the element with key value ‘g’ in the map if found, else returns the iterator to end.
+
+   count(g) function  Returns the number of matches to element with key value ‘g’ in the map.
+
+
+//we can easily work wuth map similar as array where key of map will be like index of array and value  of map will we same as value of array;
+ex-   gquiz1[2]++;
+      // now, value at key 2 is increased by 1, so it become 31.
