@@ -1,6 +1,0 @@
-1. Convert to upper case
-	char C='A';
-	char c=(C | ' ');  //c=(C | (1<<5));
-2. Convert to lower case
-	char c='a';
-	CHAR C=(c & '_');  //C=(c & ~(1<<5));

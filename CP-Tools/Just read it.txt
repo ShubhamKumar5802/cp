@@ -1,9 +1,0 @@
-1.parameter means a vriable which store data where as argument is actual piece of data, for exmple- int y=3; here y is parameter and 3 is argument.
-
-to check all elements of one array are exactely equal to all elements of another array
-	xor of all elements of both array should 0
-	and sum of all element of arra1=sum of all element of arra2
-
-isalpha(any char) return 1 if char is uppercase and return 2 if char is lowercase else return 0;
-
-isalnum(any char)  return 1 if char is uppercase and return 2 if char is lowercase and rerurn 4 if char is digit.
