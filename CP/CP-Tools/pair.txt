@@ -1,0 +1,15 @@
+pair<string, double> PAIR2("GeeksForGeeks", 1.23);
+ 
+    cout << PAIR2.first << " ";
+    cout << PAIR2.second << endl;
+
+	OUTPUT:GeeksForGeeks 1.23
+
+PAIR3 = make_pair ("GeeksForGeeks",1.23;   //work same as above;
+
+
+bool IsOdd (int i) {
+  return ((i%2)==1);
+}
+ auto it = std::find_if( v.begin(), v.end(), IsOdd );
+cout << "The first odd value is " << *it << '\n'; 

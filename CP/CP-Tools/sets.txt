@@ -1,0 +1,36 @@
+inserction
+    set<char> myset{ 'a', 'c', 'g', 'z' };	         // declaration of set container
+    set<string> myset{ "This", "is","Geeksforgeeks" };   // declaration of set container
+    unordered_set <string> stringSet ;                   // decleration of unordered_set;
+    set<int, greater<int> > s1;                          //aggange set in decending order;
+ 
+    // insert elements in random order
+    s1.insert(40);
+    s1.insert(30);
+    s1.insert(60);
+    s1.insert(20);
+    s1.insert(50);
+
+// assigning the elements from s1 to s2
+    set<int> s2(s1.begin(), s1.end());   //we can assign elements of array or vector in set in same way;
+
+
+ // remove all elements up to 30 in s2
+     s2.erase(s2.begin(), s2.find(30));
+
+ // remove element with value 50 in s2
+    int num;
+    num = s2.erase(50);
+
+ // check if x present in set or not
+    s1.count(x);     //if x present rthen return 1 else return 0;
+
+size of set
+	s1.size();
+	
+
+lower_bound(const g) – Returns an iterator to the first element that is equivalent to ‘g’ or definitely will not go before the element ‘g’ in the set.
+upper_bound(const g) – Returns an iterator to the first element that will go after the element ‘g’ in the set.
+
+
+
