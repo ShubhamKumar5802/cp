@@ -40,7 +40,7 @@ int main()
 #endif
 
 	int __ = 1;
-	// cin >> __;
+	cin >> __;
 	while (__--) {
 		solve();
 	}
@@ -48,27 +48,35 @@ int main()
 	cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl;
 	return 0;
 }
+bool sorted(vll &v) {
+	for (int i = 1; i < v.size(); i++) {
+		if (v[i] < v[i - 1])return false;
+	}
+	return true;
+}
+
 void solve()
 {
 	ll n;
 	cin >> n;
-	vpll v(n);
-	rep(i, 0, n) {
-		ll a, b;
-		cin >> a >> b;
-		v[i] = {a, b};
-	}
-	sort(all(v));
-	ll ans = 1, cnt = 1;
-	ll end = v[0].second;
-	for (int i = 1; i < sz(v); i++) {
-		if (v[i].first < end) {
-			cnt++;
-			ans = max(ans, cnt);
+	vll v(n);
+	ll ans = 0;
+	rep(i, 0, n)cin >> v[i];
+	if (sorted(v)) {
+		cout << "0" << endl;
+	} else {
+		for (int i = 1; i < n; i++) {
+			if (v[i] < v[i - 1]) {
+				ans = max(ans, (v[i] + v[i - 1] + 1) / 2);
+			}
+		}
+		for (int j = 0; j < n; j++) {
+			v[j] = abs(ans - v[j]);
+		}
+		if (sorted(v)) {
+			cout << ans << endl;
 		} else {
-			end = v[i].second;
-			cnt = 1;
+			cout << "-1" << endl;
 		}
 	}
-	cout << ans << endl;
 }

@@ -50,24 +50,22 @@ int main()
 }
 void solve()
 {
-	ll n;
-	cin >> n;
-	vpll v(n);
-	rep(i, 0, n) {
-		ll a, b;
-		cin >> a >> b;
-		v[i] = {a, b};
-	}
-	sort(all(v));
-	ll ans = 1, cnt = 1;
-	ll end = v[0].second;
-	for (int i = 1; i < sz(v); i++) {
-		if (v[i].first < end) {
-			cnt++;
-			ans = max(ans, cnt);
-		} else {
-			end = v[i].second;
-			cnt = 1;
+	ll n, m;
+	cin >> n >> m;
+	vector<string>v(n);
+	rep(i, 0, n)cin >> v[i];
+
+	ll ans = 0 ;
+	for (int i = 0 ; i < n; i++) {
+		for (int j = i + 1; j < n; j++) {
+			bool flag = true;
+			for (int k = 0 ; k < m; k++) {
+				if (v[i][k] == 'x' and v[j][k] == 'x') {
+					flag = false;
+					break;
+				}
+			}
+			if (flag)ans++;
 		}
 	}
 	cout << ans << endl;

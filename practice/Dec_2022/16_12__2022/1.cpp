@@ -40,7 +40,7 @@ int main()
 #endif
 
 	int __ = 1;
-	// cin >> __;
+	cin >> __;
 	while (__--) {
 		solve();
 	}
@@ -50,29 +50,39 @@ int main()
 }
 void solve()
 {
-	ll ans = 0, n, s;
-	cin >> n >> s;
+	ll n;
+	cin >> n;
 	vll v(n);
 	rep(i, 0, n)cin >> v[i];
-	ll i = 0, j = 0, sum = 0;
-	while (j < n) {
-		sum += v[j];
-		if (sum >= s) {
-			while (i <= j) {
-				// cout << i << " " << j << " " << sum << " ";
-				ans += n - j;
-				// cout << ans << endl;
-				sum -= v[i];
-				i++;
-				if (sum < s)break;
+
+	ll ocnt = 0, ecnt = 0, o = INT_MAX, e = INT_MAX;
+	rep(i, 0, n) {
+		if (v[i] & 1) {
+			ocnt++;
+		}
+	}
+	if (ocnt & 1) {
+		ll ans1 = 1e9;
+		rep(i, 0, n) {
+			if (v[i] & 1) {
+				ll cnt = 0;
+				while (v[i] & 1) {
+					cnt++;
+					v[i] /= 2;
+				}
+				ans1 = min(ans1, cnt);
+			} else {
+				if (v[i] == 0)continue;
+				ll cnt = 0;
+				while (v[i] % 2 == 0) {
+					cnt++;
+					v[i] /= 2;
+				}
+				ans1 = min(ans1, cnt);
 			}
 		}
-		j++;
+		cout << ans1 << endl;
+	} else {
+		cout << "0" << endl;
 	}
-	// while (i < j) {
-	// 	sum -= v[i];
-	// 	ans += j - i;
-	// 	i++;
-	// }
-	cout << ans << endl;
 }

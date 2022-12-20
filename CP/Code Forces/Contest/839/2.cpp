@@ -40,7 +40,7 @@ int main()
 #endif
 
 	int __ = 1;
-	// cin >> __;
+	cin >> __;
 	while (__--) {
 		solve();
 	}
@@ -48,27 +48,37 @@ int main()
 	cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl;
 	return 0;
 }
-void solve()
-{
-	ll n;
-	cin >> n;
-	vpll v(n);
-	rep(i, 0, n) {
-		ll a, b;
-		cin >> a >> b;
-		v[i] = {a, b};
+int mat[2][2];
+bool isValid() {
+	if (mat[1][0] < mat[1][1] and mat[0][0] < mat[0][1] and mat[0][0] < mat[1][0] and mat[1][1] > mat[0][1]) {
+		return true;
 	}
-	sort(all(v));
-	ll ans = 1, cnt = 1;
-	ll end = v[0].second;
-	for (int i = 1; i < sz(v); i++) {
-		if (v[i].first < end) {
-			cnt++;
-			ans = max(ans, cnt);
-		} else {
-			end = v[i].second;
-			cnt = 1;
+	return false;
+}
+void transpose() {
+	for (int i = 0 ; i < 2; i++) {
+		for (int j = 0; j < i; j++) {
+			swap(mat[i][j], mat[j][i]);
 		}
 	}
-	cout << ans << endl;
+	reverse(mat[0], mat[0] + 2);
+	reverse(mat[1], mat[1] + 2);
+}
+void solve()
+{
+	ll n1, n2, n3, n4;
+	cin >> n1 >> n2 >> n3 >> n4;
+	mat[0][0] = n1;
+	mat[0][1] = n2;
+	mat[1][0] = n3;
+	mat[1][1] = n4;
+
+	for (int i = 0 ; i < 4; i++) {
+		if (isValid()) {
+			cout << "YES" << endl;
+			return;
+		}
+		transpose();
+	}
+	cout << "NO" << endl;
 }

@@ -48,26 +48,37 @@ int main()
 	cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl;
 	return 0;
 }
+ll n, m;
+bool check(vll &c, vll &t, ll r) {
+	ll i = 0, j = 0, k = 0;
+	while (k < n) {
+		if (i == m) {
+			return false;
+		}
+		if (c[k] >= t[i] - r and c[k] <= t[i] + r) {
+			k++;
+		} else {
+			i++;
+		}
+	}
+	return true;
+}
 void solve()
 {
-	ll n;
-	cin >> n;
-	vpll v(n);
-	rep(i, 0, n) {
-		ll a, b;
-		cin >> a >> b;
-		v[i] = {a, b};
-	}
-	sort(all(v));
-	ll ans = 1, cnt = 1;
-	ll end = v[0].second;
-	for (int i = 1; i < sz(v); i++) {
-		if (v[i].first < end) {
-			cnt++;
-			ans = max(ans, cnt);
+	cin >> n >> m;
+	vll c(n), t(m);
+	rep(i, 0, n)cin >> c[i];
+	rep(i, 0, m)cin >> t[i];
+
+	ll l = 0, r = 1e12;
+	ll ans = 1e12;
+	while (l <= r) {
+		ll mid = r - (r - l) / 2;
+		if (check(c, t, mid)) {
+			ans = mid;
+			r = mid - 1;
 		} else {
-			end = v[i].second;
-			cnt = 1;
+			l = mid + 1;
 		}
 	}
 	cout << ans << endl;

@@ -40,7 +40,7 @@ int main()
 #endif
 
 	int __ = 1;
-	// cin >> __;
+	cin >> __;
 	while (__--) {
 		solve();
 	}
@@ -48,27 +48,25 @@ int main()
 	cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl;
 	return 0;
 }
+ll fun(ll x) {
+	ll cur = 1;
+	while (cur <= x) {
+		cur *= 2;
+	}
+	return cur;
+}
+
 void solve()
 {
 	ll n;
 	cin >> n;
-	vpll v(n);
+	vll v(n);
 	rep(i, 0, n) {
-		ll a, b;
-		cin >> a >> b;
-		v[i] = {a, b};
+		cin >> v[i];
 	}
-	sort(all(v));
-	ll ans = 1, cnt = 1;
-	ll end = v[0].second;
-	for (int i = 1; i < sz(v); i++) {
-		if (v[i].first < end) {
-			cnt++;
-			ans = max(ans, cnt);
-		} else {
-			end = v[i].second;
-			cnt = 1;
-		}
+	cout << n << endl;
+	rep(i, 0, n) {
+		cout << i + 1 << " ";
+		cout << fun(v[i]) - v[i] << endl;
 	}
-	cout << ans << endl;
 }

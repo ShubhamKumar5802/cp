@@ -52,23 +52,17 @@ void solve()
 {
 	ll n;
 	cin >> n;
-	vpll v(n);
+	ll one = 0, zero = 0;
 	rep(i, 0, n) {
-		ll a, b;
-		cin >> a >> b;
-		v[i] = {a, b};
-	}
-	sort(all(v));
-	ll ans = 1, cnt = 1;
-	ll end = v[0].second;
-	for (int i = 1; i < sz(v); i++) {
-		if (v[i].first < end) {
-			cnt++;
-			ans = max(ans, cnt);
+		char t;
+		cin >> t;
+		if (t - '0') {
+			one++;
 		} else {
-			end = v[i].second;
-			cnt = 1;
+			zero++;
 		}
 	}
-	cout << ans << endl;
+	for (ll i = (1 << one); i <= (1 << n) - (1 << zero) + 1; i++) {
+		cout << i << ' ';
+	}
 }

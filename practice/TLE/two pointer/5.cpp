@@ -50,25 +50,28 @@ int main()
 }
 void solve()
 {
-	ll n;
-	cin >> n;
-	vpll v(n);
-	rep(i, 0, n) {
-		ll a, b;
-		cin >> a >> b;
-		v[i] = {a, b};
-	}
-	sort(all(v));
-	ll ans = 1, cnt = 1;
-	ll end = v[0].second;
-	for (int i = 1; i < sz(v); i++) {
-		if (v[i].first < end) {
-			cnt++;
-			ans = max(ans, cnt);
-		} else {
-			end = v[i].second;
-			cnt = 1;
+	ll n, k;
+	cin >> n >> k;
+	vll v(n);
+	rep(i, 0, n)cin >> v[i];
+	map<ll, ll>freq;
+	ll i = 0, j = 0;
+	ll ans = 0;
+	while (j < n) {
+		freq[v[j]]++;
+		while (freq.size() > k) {
+			ans += j - i;
+			freq[v[i]]--;
+			if (freq[v[i]] == 0) {
+				freq.erase(v[i]);
+			}
+			i++;
 		}
+		j++;
+	}
+	while (i < n) {
+		ans += j - i;
+		i++;
 	}
 	cout << ans << endl;
 }

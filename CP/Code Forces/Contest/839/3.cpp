@@ -40,7 +40,7 @@ int main()
 #endif
 
 	int __ = 1;
-	// cin >> __;
+	cin >> __;
 	while (__--) {
 		solve();
 	}
@@ -50,25 +50,28 @@ int main()
 }
 void solve()
 {
-	ll n;
-	cin >> n;
-	vpll v(n);
-	rep(i, 0, n) {
-		ll a, b;
-		cin >> a >> b;
-		v[i] = {a, b};
-	}
-	sort(all(v));
-	ll ans = 1, cnt = 1;
-	ll end = v[0].second;
-	for (int i = 1; i < sz(v); i++) {
-		if (v[i].first < end) {
-			cnt++;
-			ans = max(ans, cnt);
+	ll n, k;
+	cin >> k >> n;
+	ll req = k;
+	ll run = 1;
+	vll v(k);
+	v[0] = 1;
+	req--;
+	int i;
+	for ( i = 1; i < k; i++) {
+		int temp = v[i - 1] + run;
+		req--;
+		if (n - temp >= req) {
+			v[i] = temp;
+			run++;
 		} else {
-			end = v[i].second;
-			cnt = 1;
+			break;
 		}
 	}
-	cout << ans << endl;
+	while (i < k) {
+		v[i] = v[i - 1] + 1;
+		i++;
+	}
+	print1D(v);
+	cout << endl;
 }

@@ -50,25 +50,21 @@ int main()
 }
 void solve()
 {
-	ll n;
-	cin >> n;
-	vpll v(n);
-	rep(i, 0, n) {
-		ll a, b;
-		cin >> a >> b;
-		v[i] = {a, b};
+	ll n1, n2;
+	cin >> n1 >> n2;
+	vll v1(n1), v2(n2);
+	map<ll, ll>mp, mp1;
+	rep(i, 0, n1) {
+		cin >> v1[i];
+		mp[v1[i]]++;
 	}
-	sort(all(v));
-	ll ans = 1, cnt = 1;
-	ll end = v[0].second;
-	for (int i = 1; i < sz(v); i++) {
-		if (v[i].first < end) {
-			cnt++;
-			ans = max(ans, cnt);
-		} else {
-			end = v[i].second;
-			cnt = 1;
-		}
+	ll ans = 0;
+	rep(i, 0, n2) {
+		cin >> v2[i];
+		mp1[v2[i]]++;
+	}
+	for (auto &p : mp1) {
+		ans += p.second * mp[p.first];
 	}
 	cout << ans << endl;
 }

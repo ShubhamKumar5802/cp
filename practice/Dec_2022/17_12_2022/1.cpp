@@ -40,7 +40,7 @@ int main()
 #endif
 
 	int __ = 1;
-	// cin >> __;
+	cin >> __;
 	while (__--) {
 		solve();
 	}
@@ -50,25 +50,18 @@ int main()
 }
 void solve()
 {
-	ll n;
-	cin >> n;
-	vpll v(n);
-	rep(i, 0, n) {
-		ll a, b;
-		cin >> a >> b;
-		v[i] = {a, b};
+	ll x1, x2, x3, y1, y2, y3;
+	cin >> x1 >> y1 >> x2 >> y2 >> x3 >> y3;
+	set<ll>x, y;
+	x.insert(x1);
+	x.insert(x2);
+	x.insert(x3);
+	y.insert(y1);
+	y.insert(y2);
+	y.insert(y3);
+	if (y.size() == 2 and x.size() == 2) {
+		cout << "NO" << endl;
+	} else {
+		cout << "YES" << endl;
 	}
-	sort(all(v));
-	ll ans = 1, cnt = 1;
-	ll end = v[0].second;
-	for (int i = 1; i < sz(v); i++) {
-		if (v[i].first < end) {
-			cnt++;
-			ans = max(ans, cnt);
-		} else {
-			end = v[i].second;
-			cnt = 1;
-		}
-	}
-	cout << ans << endl;
 }

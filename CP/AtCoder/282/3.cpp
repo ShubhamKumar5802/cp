@@ -52,23 +52,23 @@ void solve()
 {
 	ll n;
 	cin >> n;
-	vpll v(n);
+	string s;
+	cin >> s;
+	stack<char>st;
 	rep(i, 0, n) {
-		ll a, b;
-		cin >> a >> b;
-		v[i] = {a, b};
-	}
-	sort(all(v));
-	ll ans = 1, cnt = 1;
-	ll end = v[0].second;
-	for (int i = 1; i < sz(v); i++) {
-		if (v[i].first < end) {
-			cnt++;
-			ans = max(ans, cnt);
-		} else {
-			end = v[i].second;
-			cnt = 1;
+		if (s[i] == '"') {
+			if (st.size()) {
+				st.pop();
+			} else {
+				st.push('"');
+			}
+		} else if (s[i] == ',') {
+			if (st.size()) {
+				continue;
+			} else {
+				s[i] = '.';
+			}
 		}
 	}
-	cout << ans << endl;
+	cout << s << endl;
 }

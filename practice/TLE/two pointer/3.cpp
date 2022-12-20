@@ -50,25 +50,30 @@ int main()
 }
 void solve()
 {
-	ll n;
-	cin >> n;
-	vpll v(n);
-	rep(i, 0, n) {
-		ll a, b;
-		cin >> a >> b;
-		v[i] = {a, b};
-	}
-	sort(all(v));
-	ll ans = 1, cnt = 1;
-	ll end = v[0].second;
-	for (int i = 1; i < sz(v); i++) {
-		if (v[i].first < end) {
-			cnt++;
-			ans = max(ans, cnt);
-		} else {
-			end = v[i].second;
-			cnt = 1;
+	ll ans = 0, n, s;
+	cin >> n >> s;
+	vll v(n);
+	rep(i, 0, n)cin >> v[i];
+	ll i = 0, j = 0, sum = 0;
+	while (j < n) {
+		sum += v[j];
+		if (sum >= s) {
+			while (i <= j) {
+				// cout << i << " " << j << " " << sum << " ";
+				ans += n - j;
+				// cout << ans << endl;
+				sum -= v[i];
+				i++;
+				if (sum < s)break;
+			}
 		}
+		j++;
 	}
+
+	// while (i < j) {
+	// 	sum -= v[i];
+	// 	ans += j - i;
+	// 	i++;
+	// }
 	cout << ans << endl;
 }
