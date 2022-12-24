@@ -50,28 +50,17 @@ int main()
 }
 void solve()
 {
-
-	ll n, ans = INT_MIN, sm = 0;
+	ll n;
 	cin >> n;
+	vll v(n);
 
-	vector<pair<ll, ll>>v, px;
-	for (int i = 0 ; i < n ; i++) {
-		int a, b;
-		cin >> a >> b;
-		v.push_back({a, b});
-		px.push_back({a, 1});
-		px.push_back({b, -1});
+	rep(i, 0, n)cin >> v[i];
 
+	ll ans = v[0];
+	ll curr = v[0];
+	rep(i, 1, n) {
+		curr = v[i] + max(0ll, curr);
+		ans = max(ans, curr);
 	}
-
-	sort(px.begin(), px.end());
-
-	for (auto &x : px) {
-		if (x.second == -1)sm--;
-		else sm++;
-
-		ans = max(ans, sm);
-	}
-
-	cout << ans << "\n";
+	cout << ans << endl;
 }

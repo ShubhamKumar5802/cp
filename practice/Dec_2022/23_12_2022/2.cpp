@@ -27,7 +27,7 @@ void print1D(vector<T> nums) {for (int i = 0; i < nums.size() - 1; i++)cout << n
 template <typename T>
 void print2D(vector<vector<T>> &nums) {for (int i = 0; i < nums.size(); i++) {print1D(nums[i]); cout << endl;}}
 long long power(long long x, long long n) {x = x % MOD; if (x == 0)return 0; long long result = 1; while (n > 0) {if (n & 1)result = (result * x) % MOD; n = n >> 1; x = (x * x) % MOD;} return result;}
-
+void get(vll &v, ll n) {rep(i, 0, n)cin >> v[i];}
 void solve();
 int main()
 {
@@ -40,7 +40,7 @@ int main()
 #endif
 
 	int __ = 1;
-	// cin >> __;
+	cin >> __;
 	while (__--) {
 		solve();
 	}
@@ -50,28 +50,21 @@ int main()
 }
 void solve()
 {
-
-	ll n, ans = INT_MIN, sm = 0;
+	ll n;
 	cin >> n;
+	string s;
+	cin >> s;
+	set<string>st;
 
-	vector<pair<ll, ll>>v, px;
-	for (int i = 0 ; i < n ; i++) {
-		int a, b;
-		cin >> a >> b;
-		v.push_back({a, b});
-		px.push_back({a, 1});
-		px.push_back({b, -1});
-
+	for (int i = 0; i < n - 1; i++) {
+		if (st.count(s.substr(i, 2)) == 1) {
+			cout << "YES" << endl;
+			return;
+		}
+		if (i >= 1) {
+			st.insert(s.substr(i - 1, 2));
+		}
 	}
 
-	sort(px.begin(), px.end());
-
-	for (auto &x : px) {
-		if (x.second == -1)sm--;
-		else sm++;
-
-		ans = max(ans, sm);
-	}
-
-	cout << ans << "\n";
+	cout << "NO" << endl;
 }

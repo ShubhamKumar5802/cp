@@ -40,7 +40,7 @@ int main()
 #endif
 
 	int __ = 1;
-	// cin >> __;
+	cin >> __;
 	while (__--) {
 		solve();
 	}
@@ -50,28 +50,24 @@ int main()
 }
 void solve()
 {
-
-	ll n, ans = INT_MIN, sm = 0;
+	ll n;
 	cin >> n;
+	vll v(n);
+	rep(i, 0, n)cin >> v[i];
 
-	vector<pair<ll, ll>>v, px;
-	for (int i = 0 ; i < n ; i++) {
-		int a, b;
-		cin >> a >> b;
-		v.push_back({a, b});
-		px.push_back({a, 1});
-		px.push_back({b, -1});
-
+	ll maxi = 0, mini = 0;
+	rep(i, 0, 12) {
+		bool flag = true;
+		rep(j, 0, n) {
+			if ((v[j] >> i) & 1) {
+				maxi = maxi | (1 << i);
+			} else {
+				flag = false;
+			}
+		}
+		if (flag) {
+			mini = mini | (1 << i);
+		}
 	}
-
-	sort(px.begin(), px.end());
-
-	for (auto &x : px) {
-		if (x.second == -1)sm--;
-		else sm++;
-
-		ans = max(ans, sm);
-	}
-
-	cout << ans << "\n";
+	cout << maxi - mini << endl;
 }

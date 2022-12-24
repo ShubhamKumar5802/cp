@@ -40,7 +40,7 @@ int main()
 #endif
 
 	int __ = 1;
-	// cin >> __;
+	cin >> __;
 	while (__--) {
 		solve();
 	}
@@ -50,28 +50,26 @@ int main()
 }
 void solve()
 {
-
-	ll n, ans = INT_MIN, sm = 0;
-	cin >> n;
-
-	vector<pair<ll, ll>>v, px;
-	for (int i = 0 ; i < n ; i++) {
-		int a, b;
-		cin >> a >> b;
-		v.push_back({a, b});
-		px.push_back({a, 1});
-		px.push_back({b, -1});
-
+	ll n, k;
+	cin >> n >> k;
+	vpll v(n);
+	rep(i, 0 , n)cin >> v[i].F;
+	rep(i, 0 , n)cin >> v[i].S;
+	sort(all(v));
+	vll rmin(n);
+	rmin[n - 1] = v[n - 1].S;
+	for (int i = n - 2; i >= 0; i--) {
+		rmin[i] = min(rmin[i + 1], v[i].S);
 	}
-
-	sort(px.begin(), px.end());
-
-	for (auto &x : px) {
-		if (x.second == -1)sm--;
-		else sm++;
-
-		ans = max(ans, sm);
+	ll attack = 0, idx = 0;
+	while (k > 0 and idx < n) {
+		attack += k;
+		while (idx < n and v[idx].F <= attack)idx++;
+		k -= rmin[idx];
 	}
-
-	cout << ans << "\n";
+	if (idx == n) {
+		cout << "YES" << endl;
+	} else {
+		cout << "NO" << endl;
+	}
 }

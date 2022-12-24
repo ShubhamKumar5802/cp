@@ -27,7 +27,7 @@ void print1D(vector<T> nums) {for (int i = 0; i < nums.size() - 1; i++)cout << n
 template <typename T>
 void print2D(vector<vector<T>> &nums) {for (int i = 0; i < nums.size(); i++) {print1D(nums[i]); cout << endl;}}
 long long power(long long x, long long n) {x = x % MOD; if (x == 0)return 0; long long result = 1; while (n > 0) {if (n & 1)result = (result * x) % MOD; n = n >> 1; x = (x * x) % MOD;} return result;}
-
+void get(vll &v, ll n) {rep(i, 0, n)cin >> v[i];}
 void solve();
 int main()
 {
@@ -40,7 +40,7 @@ int main()
 #endif
 
 	int __ = 1;
-	// cin >> __;
+	cin >> __;
 	while (__--) {
 		solve();
 	}
@@ -48,30 +48,37 @@ int main()
 	cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl;
 	return 0;
 }
+ll memo[100001][2];
+bool dfs(vector<vc>&c, vvll &visited, int i, int j) {
+	if (i == c.size() or i < 0 or j == 2 or j < 0 or visited[i][j] or c[i][j] == 'W')return false;
+
+	visited[i][j] = 1;
+	if (c[0][c.size() - 1] == 'B' and visited[0][c.size() - 1]) {
+		return true;
+	}
+	if (c[0][c.size() - 1] == 'W' and visited[1][c.size() - 1]) {
+		return true;
+	}
+	return dfs(c, visited, i, j + 1) or dfs(c, visited, i - 1, j) or dfs(c, visited, i, j - 1) or dfs(c, visited, i + 1, j);
+
+}
 void solve()
 {
-
-	ll n, ans = INT_MIN, sm = 0;
+	ll n;
 	cin >> n;
-
-	vector<pair<ll, ll>>v, px;
-	for (int i = 0 ; i < n ; i++) {
-		int a, b;
-		cin >> a >> b;
-		v.push_back({a, b});
-		px.push_back({a, 1});
-		px.push_back({b, -1});
-
+	vector<vc>c(2, vc(n));
+	rep(i, 0, n)cin >> c[0][i];
+	rep(i, 0, n)cin >> c[1][i];
+	bool r1 = true, r2 = true;
+	rep(i, 0, n) {
+		if (c[0][i] == 'B' and c[1][i] == 'B') {
+			swap(r1, r2);
+		} else if (c[0][i] == 'B' and c[1][i] == 'W') {
+			r1 = false;
+		} else {
+			r2 = false;
+		}
 	}
-
-	sort(px.begin(), px.end());
-
-	for (auto &x : px) {
-		if (x.second == -1)sm--;
-		else sm++;
-
-		ans = max(ans, sm);
-	}
-
-	cout << ans << "\n";
+	bool ans = r1 or r2;
+	cout << (ans ? "YES" : "NO") << endl;
 }

@@ -50,28 +50,19 @@ int main()
 }
 void solve()
 {
-
-	ll n, ans = INT_MIN, sm = 0;
+	ll n;
 	cin >> n;
-
-	vector<pair<ll, ll>>v, px;
-	for (int i = 0 ; i < n ; i++) {
-		int a, b;
-		cin >> a >> b;
-		v.push_back({a, b});
-		px.push_back({a, 1});
-		px.push_back({b, -1});
-
+	vll v(n);
+	rep(i, 0, n)cin >> v[i];
+	sort(all(v));
+	ll ans = 0, pivot = 0;
+	if (n & 1) {
+		pivot = v[n / 2];
+	} else {
+		pivot = (v[n / 2] + v[n / 2 - 1]) / 2;
 	}
-
-	sort(px.begin(), px.end());
-
-	for (auto &x : px) {
-		if (x.second == -1)sm--;
-		else sm++;
-
-		ans = max(ans, sm);
+	rep(i, 0, n) {
+		ans += abs(pivot - v[i]);
 	}
-
-	cout << ans << "\n";
+	cout << ans << endl;
 }
