@@ -48,35 +48,31 @@ int main()
 	cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl;
 	return 0;
 }
+ll d(const pll &a, const pll &b) {
+	return abs(a.F - b.F) + abs(a.S - b.S);
+}
 void solve()
 {
-	ll n, k;
-	cin >> n >> k;
-
-	string s;
-	cin >> s;
-	vll p(n + 1, 0);
-	rep(i, 0, n - k + 1) {
-		if (i != 0)p[i] += p[i - 1];
-		if (s[i] == '1') {
-			if (p[i] % 2 == 0) {
-				p[i]++;
-				p[i + k]--;
+	ll n;
+	cin >> n;
+	vll a(n);
+	get(a, n);
+	ll ans = 0 ;
+	rep (i, 0, n) {
+		rep (j, i, n) {
+			if (i + 2 <= j) {
+				bool flag = true;
+				rep (i1, i, j) {
+					rep (i2, i1 + 1, j) {
+						if (d({a[i1], i1}, {a[j], j}) == d({a[i1], i1}, {a[i2], i2}) + d({a[i2], i2}, {a[j], j}))
+							flag = false;
+					}
+				}
+				if (!flag)
+					break;
 			}
-			s[i] = '0';
-		} else {
-			if (p[i] % 2 == 1) {
-				p[i]++;
-				p[i + k]--;
-			}
+			ans++;
 		}
 	}
-	rep(i, n - k + 1, n) {
-		if (i != 0)p[i] += p[i - 1];
-		if (p[i] % 2 == 1) {
-			s[i] = s[i] == '0' ? '1' : '0';
-		}
-	}
-	cout << s << endl;
-
+	cout << ans << endl;
 }

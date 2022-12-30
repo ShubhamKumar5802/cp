@@ -40,7 +40,7 @@ int main()
 #endif
 
 	int __ = 1;
-	cin >> __;
+	// cin >> __;
 	while (__--) {
 		solve();
 	}
@@ -50,33 +50,29 @@ int main()
 }
 void solve()
 {
-	ll n, k;
-	cin >> n >> k;
+	ll n;
+	cin >> n;
+	vll v(n);
+	get(v, n);
 
-	string s;
-	cin >> s;
-	vll p(n + 1, 0);
-	rep(i, 0, n - k + 1) {
-		if (i != 0)p[i] += p[i - 1];
-		if (s[i] == '1') {
-			if (p[i] % 2 == 0) {
-				p[i]++;
-				p[i + k]--;
+	bool s = true;
+	ll s1 = 0, s2 = 0;
+	int i = 0, j = n - 1;
+	while (i <= j) {
+		if (s) {
+			if (v[i] > v[j]) {
+				s1 += v[i++];
+			} else {
+				s1 += v[j--];
 			}
-			s[i] = '0';
 		} else {
-			if (p[i] % 2 == 1) {
-				p[i]++;
-				p[i + k]--;
+			if (v[i] > v[j]) {
+				s2 += v[i++];
+			} else {
+				s2 += v[j--];
 			}
 		}
+		s = !s;
 	}
-	rep(i, n - k + 1, n) {
-		if (i != 0)p[i] += p[i - 1];
-		if (p[i] % 2 == 1) {
-			s[i] = s[i] == '0' ? '1' : '0';
-		}
-	}
-	cout << s << endl;
-
+	cout << s1 << " " << s2 << endl;
 }

@@ -50,20 +50,30 @@ int main()
 }
 void solve()
 {
-	ll n;
-	cin >> n;
-	deque<ll>dq;
-	rep(i, 1, n + 1)dq.push_back(i);
+	ll n, k;
+	cin >> n >> k;
 
-	while (dq.size()) {
-		if (dq.size() == 1) {
-			cout << dq.front() << endl;
-			break;
-		} else {
-			ll n1 = dq.front(); dq.pop_front();
-			ll n2 = dq.front(); dq.pop_front();
-			cout << n2 << " ";
-			dq.push_back(n1);
-		}
+	vpll v(n);
+	rep(i, 0, n) {
+		cin >> v[i].first;
+		v[i].second = i;
 	}
+	sort(all(v));
+	vpll ans;
+	while (v.back().F - v.front().F > 1) {
+		if (k > 0) {
+			v[0].first++;
+			v[n - 1].first--;
+			k--;
+			ans.pb({v[0].S + 1, v[n - 1].S + 1});
+		} else {
+			break;
+		}
+		sort(all(v));
+	}
+	cout << v[n - 1].F - v[0].F << " " << sz(ans) << endl;
+	rep(i, 0, sz(ans)) {
+		cout << ans[i].S << " " << ans[i].F << endl;
+	}
+	cout << endl;
 }

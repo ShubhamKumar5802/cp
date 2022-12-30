@@ -68,7 +68,6 @@ void solve()
 				if (i < n)
 					num = min(num + 1, 9ll);
 				s.pb(num + '0');
-
 			}
 		} else {
 			st.push(s[i] - '0');

@@ -27,7 +27,7 @@ void print1D(vector<T> nums) {for (int i = 0; i < nums.size() - 1; i++)cout << n
 template <typename T>
 void print2D(vector<vector<T>> &nums) {for (int i = 0; i < nums.size(); i++) {print1D(nums[i]); cout << endl;}}
 long long power(long long x, long long n) {x = x % MOD; if (x == 0)return 0; long long result = 1; while (n > 0) {if (n & 1)result = (result * x) % MOD; n = n >> 1; x = (x * x) % MOD;} return result;}
-
+void get(vll &v, ll n) {rep(i, 0, n)cin >> v[i];}
 void solve();
 int main()
 {
@@ -40,7 +40,7 @@ int main()
 #endif
 
 	int __ = 1;
-	// cin >> __;
+	cin >> __;
 	while (__--) {
 		solve();
 	}
@@ -50,28 +50,34 @@ int main()
 }
 void solve()
 {
-
-	ll n, ans = INT_MIN, sm = 0;
+	ll n;
 	cin >> n;
-
-	vector<pair<ll, ll>>v, px;
-	for (int i = 0 ; i < n ; i++) {
-		int a, b;
-		cin >> a >> b;
-		v.push_back({a, b});
-		px.push_back({a, 1});
-		px.push_back({b, -1});
-
+	string e, c;
+	cin >> e >> c;
+	ll cnt2 = 0, cnt10 = 0, cnt01 = 0, cnt0 = 0;
+	ll ans = 0;
+	rep(i, 0, n) {
+		if (e[i] == '1' and c[i] == '1') {
+			cnt2++;
+		} else if (e[i] == '0' and c[i] == '0') {
+			cnt0++;
+		} else if (e[i] == '1') {
+			cnt10++;
+		} else {
+			cnt01++;
+		}
 	}
+	ans += min(cnt2, cnt0);
+	cnt2 -= ans;
+	ll temp = min(cnt10, cnt01);
+	ans += temp;
+	cnt01 -= temp;
+	cnt10 -= temp;
 
-	sort(px.begin(), px.end());
-
-	for (auto &x : px) {
-		if (x.second == -1)sm--;
-		else sm++;
-
-		ans = max(ans, sm);
-	}
-
-	cout << ans << "\n";
+	ans += min(cnt10, cnt2);
+	cnt2 -= min(cnt10, cnt2);
+	ans += min(cnt01, cnt2);
+	cnt2 -= min(cnt01, cnt2);
+	ans += cnt2 / 2;
+	cout << ans << endl;
 }

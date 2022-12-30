@@ -50,33 +50,22 @@ int main()
 }
 void solve()
 {
-	ll n, k;
-	cin >> n >> k;
+	string s1, s2;
+	cin >> s1 >> s2;
+	int n1 = sz(s1), n2 = sz(s2);
 
-	string s;
-	cin >> s;
-	vll p(n + 1, 0);
-	rep(i, 0, n - k + 1) {
-		if (i != 0)p[i] += p[i - 1];
-		if (s[i] == '1') {
-			if (p[i] % 2 == 0) {
-				p[i]++;
-				p[i + k]--;
-			}
-			s[i] = '0';
+	int i = n1 - 1, j = n2 - 1;
+	while (i >= 0 and j >= 0) {
+		if (s1[i] == s2[j]) {
+			i--;
+			j--;
 		} else {
-			if (p[i] % 2 == 1) {
-				p[i]++;
-				p[i + k]--;
-			}
+			i -= 2;
+		}
+		if (j >= 0 and i < 0) {
+			cout << "NO" << endl;
+			return;
 		}
 	}
-	rep(i, n - k + 1, n) {
-		if (i != 0)p[i] += p[i - 1];
-		if (p[i] % 2 == 1) {
-			s[i] = s[i] == '0' ? '1' : '0';
-		}
-	}
-	cout << s << endl;
-
+	cout << "YES" << endl;
 }

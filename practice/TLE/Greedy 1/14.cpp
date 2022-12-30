@@ -52,31 +52,38 @@ void solve()
 {
 	ll n, k;
 	cin >> n >> k;
+	vll v(n);
+	get(v, n);
 
-	string s;
-	cin >> s;
-	vll p(n + 1, 0);
-	rep(i, 0, n - k + 1) {
-		if (i != 0)p[i] += p[i - 1];
-		if (s[i] == '1') {
-			if (p[i] % 2 == 0) {
-				p[i]++;
-				p[i + k]--;
-			}
-			s[i] = '0';
-		} else {
-			if (p[i] % 2 == 1) {
-				p[i]++;
-				p[i + k]--;
-			}
+	ll sum = accumulate(all(v), 0ll);
+	if (sum <= k) {
+		cout << "0" << endl;
+		return;
+	}
+	sort(all(v));
+	ll sum1 = sum;
+	ll i = 0, j = n - 1;
+	ll steps = 0;
+	while (i < j) {
+		if (v[j] - v[i] < 2)break;
+		sum -= (v[j] - v[i]);
+		j--;
+		steps++;
+		if (sum <= k)break;
+	}
+	steps += max(0ll, sum - k);
+	ll steps1 = v[0];
+	sum1 -= v[0];
+	if (sum1 > k) {
+		i = 0 , j = n - 1;
+		while (i < j) {
+			sum1 -= (v[j]);
+			j--;
+			steps1++;
+			if (sum1 <= k)break;
 		}
 	}
-	rep(i, n - k + 1, n) {
-		if (i != 0)p[i] += p[i - 1];
-		if (p[i] % 2 == 1) {
-			s[i] = s[i] == '0' ? '1' : '0';
-		}
-	}
-	cout << s << endl;
+	steps = min(steps, steps1);
+	cout << steps << endl;
 
 }

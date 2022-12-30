@@ -27,18 +27,18 @@ void print1D(vector<T> nums) {for (int i = 0; i < nums.size() - 1; i++)cout << n
 template <typename T>
 void print2D(vector<vector<T>> &nums) {for (int i = 0; i < nums.size(); i++) {print1D(nums[i]); cout << endl;}}
 long long power(long long x, long long n) {x = x % MOD; if (x == 0)return 0; long long result = 1; while (n > 0) {if (n & 1)result = (result * x) % MOD; n = n >> 1; x = (x * x) % MOD;} return result;}
-
+void get(vll &v, ll n) {rep(i, 0, n)cin >> v[i];}
 void solve();
 int main()
 {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 
-#ifndef ONLINE_JUDGE
-	freopen("input.txt", "r", stdin);
-	freopen("output.txt", "w", stdout);
-#endif
-
+// #ifndef ONLINE_JUDGE
+	// freopen("input.txt", "r", stdin);
+	// freopen("output.txt", "w", stdout);
+// #endif
+// 
 	int __ = 1;
 	// cin >> __;
 	while (__--) {
@@ -52,15 +52,7 @@ void solve()
 {
 	ll n;
 	cin >> n;
-	vll v(n);
-
-	rep(i, 0, n)cin >> v[i];
-
-	ll ans = v[0];
-	ll curr = v[0];
-	rep(i, 1, n) {
-		curr = v[i] + max(0ll, curr);
-		ans = max(ans, curr);
-	}
-	cout << ans << endl;
+	//vll v(n);
+	//get(v,n);
+	cout<<"hi"<<endl;
 }

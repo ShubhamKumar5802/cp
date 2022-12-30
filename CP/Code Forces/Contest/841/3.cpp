@@ -48,35 +48,57 @@ int main()
 	cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl;
 	return 0;
 }
+
+bool check(vvll &v, ll l, ll n, ll m) {
+	vvll visited (n + 1, vll(m + 1));
+	rep(i, 0, n) {
+		rep(j, 0, m) {
+			if (v[i][j] < l) {
+				visited[i + 1][j + 1] = 1;
+			}
+		}
+	}
+	rep(i , 1, n + 1) {
+		rep(j, 1, m + 1) {
+			visited[i][j] +=  visited[i - 1][j] + visited[i][j - 1] - visited[i - 1][j - 1];
+		}
+	}
+
+	rep(i, 0, n - l + 1) {
+		rep(j, 0, m - l + 1) {
+			ll num = visited[i + l][j + l] - visited[i][j + l] - visited[i + l][j] + visited[i][j];
+			if ((num)) {
+				continue;
+			} else {
+				return true;
+			}
+		}
+	}
+	return false;
+
+}
 void solve()
 {
-	ll n, k;
-	cin >> n >> k;
+	ll n, m;
+	cin >> n >> m;
 
-	string s;
-	cin >> s;
-	vll p(n + 1, 0);
-	rep(i, 0, n - k + 1) {
-		if (i != 0)p[i] += p[i - 1];
-		if (s[i] == '1') {
-			if (p[i] % 2 == 0) {
-				p[i]++;
-				p[i + k]--;
-			}
-			s[i] = '0';
+	vvll v(n, vll(m, 0));
+	rep(i, 0, n) {
+		rep(j, 0, m) {
+			cin >> v[i][j];
+		}
+	}
+	ll l = 1, r = min(n, m);
+	ll ans = 0;
+	while (l <= r) {
+		ll mid = r - (r - l) / 2;
+		if (check(v, mid, n, m)) {
+			ans = mid;
+			l = mid + 1;
 		} else {
-			if (p[i] % 2 == 1) {
-				p[i]++;
-				p[i + k]--;
-			}
+			r = mid - 1;
 		}
 	}
-	rep(i, n - k + 1, n) {
-		if (i != 0)p[i] += p[i - 1];
-		if (p[i] % 2 == 1) {
-			s[i] = s[i] == '0' ? '1' : '0';
-		}
-	}
-	cout << s << endl;
+	cout << ans << endl;
 
 }

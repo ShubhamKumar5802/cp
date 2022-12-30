@@ -27,7 +27,7 @@ void print1D(vector<T> nums) {for (int i = 0; i < nums.size() - 1; i++)cout << n
 template <typename T>
 void print2D(vector<vector<T>> &nums) {for (int i = 0; i < nums.size(); i++) {print1D(nums[i]); cout << endl;}}
 long long power(long long x, long long n) {x = x % MOD; if (x == 0)return 0; long long result = 1; while (n > 0) {if (n & 1)result = (result * x) % MOD; n = n >> 1; x = (x * x) % MOD;} return result;}
-
+void get(vll &v, ll n) {rep(i, 0, n)cin >> v[i];}
 void solve();
 int main()
 {
@@ -50,20 +50,33 @@ int main()
 }
 void solve()
 {
-	ll n, x;
-	cin >> n >> x;
-	vll v(n);
-	rep(i, 0, n)cin >> v[i];
-	map<ll , ll>m;
-	ll sum = 0;
-	m[0]++;
-	ll ans = 0;
+	string s;
+	cin >> s;
+	ll n = s.size();
+	string ot = "", one = "";
 	rep(i, 0, n) {
-		sum += v[i];
-		if (m.find(sum - x) != m.end()) {
-			ans += m[sum - x];
+		if (s[i] == '1') {
+			one.pb('1');
+		} else {
+			ot.pb(s[i]);
 		}
-		m[sum]++;
 	}
-	cout << ans << endl;
+	if (ot.size() == 0) {
+		cout << one << endl;
+	} else if (one.size() == 0) {
+		cout << ot << endl;
+	} else {
+		if (ot[0] == '2') {
+			one += ot;
+			cout << one << endl;
+		} else {
+			ll itr = 0;
+			while (itr < n and ot[itr] == '0')itr++;
+			string ans = ot.substr(0, itr);
+			ans += one;
+			ans += ot.substr(itr);
+
+			cout << ans << endl;
+		}
+	}
 }

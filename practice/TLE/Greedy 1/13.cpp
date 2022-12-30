@@ -40,7 +40,7 @@ int main()
 #endif
 
 	int __ = 1;
-	cin >> __;
+	// cin >> __;
 	while (__--) {
 		solve();
 	}
@@ -52,31 +52,28 @@ void solve()
 {
 	ll n, k;
 	cin >> n >> k;
+	vll v(n);
+	get(v, n);
 
-	string s;
-	cin >> s;
-	vll p(n + 1, 0);
-	rep(i, 0, n - k + 1) {
-		if (i != 0)p[i] += p[i - 1];
-		if (s[i] == '1') {
-			if (p[i] % 2 == 0) {
-				p[i]++;
-				p[i + k]--;
-			}
-			s[i] = '0';
-		} else {
-			if (p[i] % 2 == 1) {
-				p[i]++;
-				p[i + k]--;
+	ll mini = *min_element(all(v));
+	rep(i, 0, n)v[i] -= mini;
+	ll cuts = 0;
+	sort(all(v), greater<ll>());
+	ll sum = 0, x = 1;
+	rep(i, 0, n) {
+		if (v[i] == 0)break;
+		while (v[i] > v[i + 1]) {
+			sum += x;
+			v[i]--;
+			if (sum == k) {
+				cuts++;
+				sum = 0;
+			} else if (sum > k) {
+				cuts ++;
+				sum = x;
 			}
 		}
+		x++;
 	}
-	rep(i, n - k + 1, n) {
-		if (i != 0)p[i] += p[i - 1];
-		if (p[i] % 2 == 1) {
-			s[i] = s[i] == '0' ? '1' : '0';
-		}
-	}
-	cout << s << endl;
-
+	cout << cuts << endl;
 }

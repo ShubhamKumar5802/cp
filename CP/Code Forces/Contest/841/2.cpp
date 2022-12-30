@@ -21,6 +21,7 @@ typedef vector<pii> vpii;
 typedef vector<pll> vpll;
 
 const long long MOD = 1e9 + 7;
+
 const double PI = 3.14159265358979323846264338327950288419;
 template<typename T>
 void print1D(vector<T> nums) {for (int i = 0; i < nums.size() - 1; i++)cout << nums[i] << " "; cout << nums[nums.size() - 1];}
@@ -50,33 +51,8 @@ int main()
 }
 void solve()
 {
-	ll n, k;
-	cin >> n >> k;
-
-	string s;
-	cin >> s;
-	vll p(n + 1, 0);
-	rep(i, 0, n - k + 1) {
-		if (i != 0)p[i] += p[i - 1];
-		if (s[i] == '1') {
-			if (p[i] % 2 == 0) {
-				p[i]++;
-				p[i + k]--;
-			}
-			s[i] = '0';
-		} else {
-			if (p[i] % 2 == 1) {
-				p[i]++;
-				p[i + k]--;
-			}
-		}
-	}
-	rep(i, n - k + 1, n) {
-		if (i != 0)p[i] += p[i - 1];
-		if (p[i] % 2 == 1) {
-			s[i] = s[i] == '0' ? '1' : '0';
-		}
-	}
-	cout << s << endl;
-
+	ll n;
+	cin >> n;
+	ll ans = ((((n*(n+1))%MOD)*(4*n-1))%MOD*337)%MOD;
+	cout << ans << endl;
 }

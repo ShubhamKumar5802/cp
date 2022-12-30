@@ -40,7 +40,7 @@ int main()
 #endif
 
 	int __ = 1;
-	cin >> __;
+	// cin >> __;
 	while (__--) {
 		solve();
 	}
@@ -50,33 +50,20 @@ int main()
 }
 void solve()
 {
-	ll n, k;
-	cin >> n >> k;
+	ll n;
+	cin >> n;
+	deque<ll>dq;
+	rep(i, 1, n + 1)dq.push_back(i);
 
-	string s;
-	cin >> s;
-	vll p(n + 1, 0);
-	rep(i, 0, n - k + 1) {
-		if (i != 0)p[i] += p[i - 1];
-		if (s[i] == '1') {
-			if (p[i] % 2 == 0) {
-				p[i]++;
-				p[i + k]--;
-			}
-			s[i] = '0';
+	while (dq.size()) {
+		if (dq.size() == 1) {
+			cout << dq.front() << endl;
+			break;
 		} else {
-			if (p[i] % 2 == 1) {
-				p[i]++;
-				p[i + k]--;
-			}
+			ll n1 = dq.front(); dq.pop_front();
+			ll n2 = dq.front(); dq.pop_front();
+			cout << n2 << " ";
+			dq.push_back(n1);
 		}
 	}
-	rep(i, n - k + 1, n) {
-		if (i != 0)p[i] += p[i - 1];
-		if (p[i] % 2 == 1) {
-			s[i] = s[i] == '0' ? '1' : '0';
-		}
-	}
-	cout << s << endl;
-
 }

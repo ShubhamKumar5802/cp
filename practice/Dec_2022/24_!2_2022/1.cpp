@@ -50,33 +50,49 @@ int main()
 }
 void solve()
 {
-	ll n, k;
-	cin >> n >> k;
-
-	string s;
-	cin >> s;
-	vll p(n + 1, 0);
-	rep(i, 0, n - k + 1) {
-		if (i != 0)p[i] += p[i - 1];
-		if (s[i] == '1') {
-			if (p[i] % 2 == 0) {
-				p[i]++;
-				p[i + k]--;
+	ll n, m;
+	cin >> n >> m;
+	vector<vc>v(n, vc(m));
+	ll cnt = 0;
+	rep(i, 0, n) {
+		rep(j, 0, m) {
+			cin >> v[i][j];
+			cnt += v[i][j] == '1';
+		}
+	}
+	ll mini = 3;
+	rep(i, 0, n) {
+		rep(j, 0, m) {
+			if (i + 1 < n and j + 1 < m) {
+				ll t = 0;
+				t += v[i][j] == '1';
+				t += v[i + 1][j] == '1';
+				t += v[i][j + 1] == '1';
+				mini = min(mini, t);
 			}
-			s[i] = '0';
-		} else {
-			if (p[i] % 2 == 1) {
-				p[i]++;
-				p[i + k]--;
+			if (i - 1 >= 0 and j + 1 < m) {
+				ll t = 0;
+				t += v[i][j] == '1';
+				t += v[i - 1][j] == '1';
+				t += v[i][j + 1] == '1';
+				mini = min(mini, t);
+			}
+			if (i - 1 >= 0 and j - 1 >= 0) {
+				ll t = 0;
+				t += v[i][j] == '1';
+				t += v[i - 1][j] == '1';
+				t += v[i][j - 1] == '1';
+				mini = min(mini, t);
+			}
+			if (i + 1 < n and j - 1 >= 0) {
+				ll t = 0;
+				t += v[i][j] == '1';
+				t += v[i + 1][j] == '1';
+				t += v[i][j - 1] == '1';
+				mini = min(mini, t);
 			}
 		}
 	}
-	rep(i, n - k + 1, n) {
-		if (i != 0)p[i] += p[i - 1];
-		if (p[i] % 2 == 1) {
-			s[i] = s[i] == '0' ? '1' : '0';
-		}
-	}
-	cout << s << endl;
-
+	cnt -= max(mini - 1, 0ll);
+	cout <<  cnt << endl;
 }

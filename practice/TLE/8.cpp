@@ -52,15 +52,25 @@ void solve()
 {
 	ll n;
 	cin >> n;
-	v<pair<ll, pair<ll, ll>>> v(n);
+	vll a(n), b(n), aa(n), bb(n);
 	rep(i, 0, n) {
-		cin >> v[i].F;
-		cin >> v[i].S.F;
-		v[i].S.S = i;
+		cin >> a[i] >> b[i];
 	}
-	sort(all(v), greater<pll>());
-	vll ans2(n), ans1(n);
-	rep(i, 0, n) {
 
+	rep(i, 0, n / 2)aa[i] = bb[i] = 1;
+
+	ll i = 0, j = 0, k = 0;
+	while (i < n) {
+		if (a[j] < b[k]) {
+			i++;
+			aa[j++] = 1;
+		} else {
+			i++;
+			bb[k++] = 1;
+		}
 	}
+	rep(i, 0, n)cout << aa[i];
+	cout << endl;
+	rep(i, 0, n)cout << bb[i];
+	cout << endl;
 }

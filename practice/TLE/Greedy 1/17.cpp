@@ -40,7 +40,7 @@ int main()
 #endif
 
 	int __ = 1;
-	cin >> __;
+	// cin >> __;
 	while (__--) {
 		solve();
 	}
@@ -48,35 +48,33 @@ int main()
 	cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl;
 	return 0;
 }
+ll v[300009];
 void solve()
 {
-	ll n, k;
+	ll n, k, h = 0, need = 1e9;
 	cin >> n >> k;
-
-	string s;
-	cin >> s;
-	vll p(n + 1, 0);
-	rep(i, 0, n - k + 1) {
-		if (i != 0)p[i] += p[i - 1];
-		if (s[i] == '1') {
-			if (p[i] % 2 == 0) {
-				p[i]++;
-				p[i + k]--;
-			}
-			s[i] = '0';
-		} else {
-			if (p[i] % 2 == 1) {
-				p[i]++;
-				p[i + k]--;
-			}
-		}
+	rep(i, 0, n) {
+		ll temp;
+		cin >> temp;
+		v[temp]++;
+		h = max(temp, h);
+		need = min(need, temp);
 	}
-	rep(i, n - k + 1, n) {
-		if (i != 0)p[i] += p[i - 1];
-		if (p[i] % 2 == 1) {
-			s[i] = s[i] == '0' ? '1' : '0';
-		}
-	}
-	cout << s << endl;
 
+	ll pos = 300008;
+	ll cnt = 0, sum = 0, c = 0;
+	while (1) {
+		ll x = sum - c * (pos - 1);
+		if (x > k) {
+			cnt++;
+			h = pos;
+			sum = pos * c;
+		}
+		pos--;
+		if (pos == need)break;
+		c += v[pos];
+		sum += v[pos] * pos;
+	}
+	if (h != need)cnt++;
+	cout << cnt << endl;
 }

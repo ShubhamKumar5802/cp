@@ -48,35 +48,35 @@ int main()
 	cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl;
 	return 0;
 }
+long long d_sum( ll n) {
+	long long ans = 0;
+	while (n) {
+		ans += n % 10;
+		n /= 10;
+	}
+	return ans;
+}
 void solve()
 {
-	ll n, k;
-	cin >> n >> k;
-
-	string s;
-	cin >> s;
-	vll p(n + 1, 0);
-	rep(i, 0, n - k + 1) {
-		if (i != 0)p[i] += p[i - 1];
-		if (s[i] == '1') {
-			if (p[i] % 2 == 0) {
-				p[i]++;
-				p[i + k]--;
-			}
-			s[i] = '0';
-		} else {
-			if (p[i] % 2 == 1) {
-				p[i]++;
-				p[i + k]--;
+	ll n;
+	ll s;
+	cin >> n >> s;
+	long long sum = d_sum(n);
+	if (s >= sum) {
+		cout << "0" << endl;
+	} else {
+		ll fact = 1, ans = 0;
+		for (int i = 0; i < 18; i++) {
+			ll num = (n / fact) % 10;
+			ll extra  = (10 - num) * fact;
+			n += extra;
+			ans += extra;
+			fact *= 10;
+			if (d_sum(n) <= s) {
+				cout << ans << endl;
+				return;
 			}
 		}
+		cout << ans << endl;
 	}
-	rep(i, n - k + 1, n) {
-		if (i != 0)p[i] += p[i - 1];
-		if (p[i] % 2 == 1) {
-			s[i] = s[i] == '0' ? '1' : '0';
-		}
-	}
-	cout << s << endl;
-
 }

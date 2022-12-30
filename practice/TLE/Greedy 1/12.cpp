@@ -50,33 +50,23 @@ int main()
 }
 void solve()
 {
-	ll n, k;
-	cin >> n >> k;
-
-	string s;
-	cin >> s;
-	vll p(n + 1, 0);
-	rep(i, 0, n - k + 1) {
-		if (i != 0)p[i] += p[i - 1];
-		if (s[i] == '1') {
-			if (p[i] % 2 == 0) {
-				p[i]++;
-				p[i + k]--;
-			}
-			s[i] = '0';
-		} else {
-			if (p[i] % 2 == 1) {
-				p[i]++;
-				p[i + k]--;
+	ll n;
+	cin >> n;
+	vll v(n);
+	get(v, n);
+	if (n < 3) {
+		cout << n << endl;
+		return;
+	} else if (n & 1) {
+		cout << n << endl;
+	} else {
+		for (int i = 2; i < n; i++) {
+			if (v[i] != v[i - 2]) {
+				cout << n << endl;
+				return;
 			}
 		}
-	}
-	rep(i, n - k + 1, n) {
-		if (i != 0)p[i] += p[i - 1];
-		if (p[i] % 2 == 1) {
-			s[i] = s[i] == '0' ? '1' : '0';
-		}
-	}
-	cout << s << endl;
+		cout << (n / 2 + 1) << endl;
 
+	}
 }

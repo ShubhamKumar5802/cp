@@ -40,7 +40,7 @@ int main()
 #endif
 
 	int __ = 1;
-	cin >> __;
+	// cin >> __;
 	while (__--) {
 		solve();
 	}
@@ -48,35 +48,61 @@ int main()
 	cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl;
 	return 0;
 }
+struct tri {
+	ll f, s, t;
+};
+bool comp(tri &a, tri &b) {
+	if (a.f != b.f)
+		return a.f < b.f;
+	return a.s > b.s;
+}
+bool comp2(tri &a, tri &b) {
+	if (a.f != b.f)
+		return a.f > b.f;
+	return a.s < b.s;
+}
 void solve()
 {
-	ll n, k;
-	cin >> n >> k;
+	ll n;
+	cin >> n;
+	vector<tri> v(n);
+	rep(i, 0, n) {
+		cin >> v[i].f;
+		cin >> v[i].s;
+		v[i].t = i;
+	}
 
-	string s;
-	cin >> s;
-	vll p(n + 1, 0);
-	rep(i, 0, n - k + 1) {
-		if (i != 0)p[i] += p[i - 1];
-		if (s[i] == '1') {
-			if (p[i] % 2 == 0) {
-				p[i]++;
-				p[i + k]--;
-			}
-			s[i] = '0';
+	sort(all(v), comp);
+
+	multiset<ll>mst, mst2;
+	vll ans2(n), ans1(n);
+	rep(i, 0, n) {
+		if (mst.empty()) {
+			ans2[v[i].t] = 0;
 		} else {
-			if (p[i] % 2 == 1) {
-				p[i]++;
-				p[i + k]--;
+			if (v[i].s <= *mst.rbegin()) {
+				ans2[v[i].t] = 1;
+			} else {
+				ans2[v[i].t] = 0;
 			}
 		}
+		mst.insert(v[i].s);
 	}
-	rep(i, n - k + 1, n) {
-		if (i != 0)p[i] += p[i - 1];
-		if (p[i] % 2 == 1) {
-			s[i] = s[i] == '0' ? '1' : '0';
+	sort(all(v), comp2);
+	rep(i, 0, n) {
+		if (mst2.empty()) {
+			ans1[v[i].t] = 0;
+		} else {
+			if (v[i].s >= *mst2.begin()) {
+				ans1[v[i].t] = 1;
+			} else {
+				ans1[v[i].t] = 0;
+			}
 		}
+		mst2.insert(v[i].s);
 	}
-	cout << s << endl;
-
+	print1D(ans1);
+	cout << endl;
+	print1D(ans2);
+	cout << endl;
 }

@@ -40,7 +40,7 @@ int main()
 #endif
 
 	int __ = 1;
-	cin >> __;
+	// cin >> __;
 	while (__--) {
 		solve();
 	}
@@ -50,33 +50,32 @@ int main()
 }
 void solve()
 {
-	ll n, k;
-	cin >> n >> k;
+	ll n, a, b;
+	cin >> n >> a >> b;
+	vll v(n);
+	get(v, n);
 
-	string s;
-	cin >> s;
-	vll p(n + 1, 0);
-	rep(i, 0, n - k + 1) {
-		if (i != 0)p[i] += p[i - 1];
-		if (s[i] == '1') {
-			if (p[i] % 2 == 0) {
-				p[i]++;
-				p[i + k]--;
-			}
-			s[i] = '0';
-		} else {
-			if (p[i] % 2 == 1) {
-				p[i]++;
-				p[i + k]--;
-			}
-		}
+	deque<ll>dq;
+	vll ps(n);
+	ps[0] = v[0];
+	rep(i, 1, n) {
+		ps[i] = ps[i - 1] + v[i];
 	}
-	rep(i, n - k + 1, n) {
-		if (i != 0)p[i] += p[i - 1];
-		if (p[i] % 2 == 1) {
-			s[i] = s[i] == '0' ? '1' : '0';
+	ll i = 0, j = 0, ans = 0;
+	while (j < n) {
+		while (dq.size() and dq.back() > ps[j]) {
+			dq.pop_back();
 		}
+		dq.push_back(ps[j]);
+		if (j - i + 1 > b + 1) {
+			if (ps[i] == dq.front()) {
+				dq.pop_front();
+			}
+			i++;
+		}
+		if (j - i + 1 >= a + 1)
+			ans = max(ans, ps[j] - dq.front());
+		j++;
 	}
-	cout << s << endl;
-
+	cout << ans << endl;
 }
