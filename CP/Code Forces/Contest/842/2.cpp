@@ -1,6 +1,3 @@
-
-// @author mr_optimizer
-
 #include <bits/stdc++.h>
 using namespace std;
 #define  rep(i,x,y)      for(int i=x ; i<y ; i++)
@@ -38,10 +35,6 @@ ll expo(ll a, ll b, ll mod) {ll res = 1; while (b > 0) {if (b & 1)res = (res * a
 void extendgcd(ll a, ll b, ll*v) {if (b == 0) {v[0] = 1; v[1] = 0; v[2] = a; return ;} extendgcd(b, a % b, v); ll x = v[1]; v[1] = v[0] - v[1] * (a / b); v[0] = x; return;}
 ll mminv(ll a, ll b) {ll arr[3]; extendgcd(a, b, arr); return arr[0];} //for non prime b
 ll mminvprime(ll a, ll b) {return expo(a, b - 2, b);}
-ll mod_add(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a + b) % m) + m) % m;}
-ll mod_mul(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a * b) % m) + m) % m;}
-ll mod_sub(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a - b) % m) + m) % m;}
-ll mod_div(ll a, ll b, ll m) {a = a % m; b = b % m; return (mod_mul(a, mminvprime(b, m), m) + m) % m;}
 
 void get(vll &v, ll n) {rep(i, 0, n)cin >> v[i];}
 void solve();
@@ -63,34 +56,25 @@ int main()
 
 	cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl;
 	return 0;
+} ll fnd(vll &v, ll x) {
+	rep(i, 0, sz(v)) {
+		if (v[i] == x)return i;
+	}
+	return -1;
 }
 void solve()
 {
-	ll n;
-	cin >> n;
-	vpll v(n);
+	ll n = 0, k = 0;
+	cin >> n >> k;
+	vll v(n);
+	get(v, n);
+	ll cnt = 0, f = 1;
 	rep(i, 0, n) {
-		cin >> v[i].F;
-		cin >> v[i].S;
-	}
-	ll ans = 0, l = 0, r = n;
-	auto check = [&](ll people) {
-		ll invited = 0;
-		rep(i, 0, n) {
-			if (v[i].F  >= (people - invited - 1) and v[i].S >= invited) {
-				invited++;
-			}
-		}
-		return invited >= people;
-	};
-	while (l <= r) {
-		ll mid = r - (r - l) / 2;
-		if (check(mid)) {
-			ans = mid;
-			l = mid + 1;
-		} else {
-			r = mid - 1;
+		if (v[i] == f) {
+			f++;
+			cnt++;
 		}
 	}
+	ll ans = (n - cnt) % k > 0 ? (n - cnt) / k + 1 : (n - cnt) / k;
 	cout << ans << endl;
 }

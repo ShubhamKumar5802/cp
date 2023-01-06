@@ -1,15 +1,21 @@
+
+// @author mr_optimizer
+
 #include <bits/stdc++.h>
 using namespace std;
 #define  rep(i,x,y)      for(int i=x ; i<y ; i++)
 #define  F               first
 #define  S               second
 #define  pb              push_back
+#define  ppb             pop_back
 #define  sz(v)           int((v).size())
 #define  all(v)          (v).begin(), (v).end()
-#define  gcd             __gcd
-#define  endl           "\n"
+#define  allr(v)         (v).rbegin(), (v).rend()
+#define  endl            "\n"
+#define  set_bits(x)     __builtin_popcountll(x)
 
 typedef long long ll;
+typedef unsigned long long ull;
 typedef vector<int> vi;
 typedef vector<char> vc;
 typedef vector<vi> vvi;
@@ -23,10 +29,20 @@ typedef vector<pll> vpll;
 const long long MOD = 1e9 + 7;
 const double PI = 3.14159265358979323846264338327950288419;
 template<typename T>
-void print1D(vector<T> nums) {for (int i = 0; i < nums.size() - 1; i++)cout << nums[i] << " "; cout << nums[nums.size() - 1];}
+void print1D(vector<T> nums) {for (int i = 0; i < sz(nums) - 1; i++)cout << nums[i] << " "; if (sz(nums))cout << nums[nums.size() - 1];}
 template <typename T>
 void print2D(vector<vector<T>> &nums) {for (int i = 0; i < nums.size(); i++) {print1D(nums[i]); cout << endl;}}
 long long power(long long x, long long n) {x = x % MOD; if (x == 0)return 0; long long result = 1; while (n > 0) {if (n & 1)result = (result * x) % MOD; n = n >> 1; x = (x * x) % MOD;} return result;}
+ll gcd(ll a, ll b) {if (b > a) {return gcd(b, a);} if (b == 0) {return a;} return gcd(b, a % b);}
+ll expo(ll a, ll b, ll mod) {ll res = 1; while (b > 0) {if (b & 1)res = (res * a) % mod; a = (a * a) % mod; b = b >> 1;} return res;}
+void extendgcd(ll a, ll b, ll*v) {if (b == 0) {v[0] = 1; v[1] = 0; v[2] = a; return ;} extendgcd(b, a % b, v); ll x = v[1]; v[1] = v[0] - v[1] * (a / b); v[0] = x; return;}
+ll mminv(ll a, ll b) {ll arr[3]; extendgcd(a, b, arr); return arr[0];} //for non prime b
+ll mminvprime(ll a, ll b) {return expo(a, b - 2, b);}
+ll mod_add(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a + b) % m) + m) % m;}
+ll mod_mul(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a * b) % m) + m) % m;}
+ll mod_sub(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a - b) % m) + m) % m;}
+ll mod_div(ll a, ll b, ll m) {a = a % m; b = b % m; return (mod_mul(a, mminvprime(b, m), m) + m) % m;}
+
 void get(vll &v, ll n) {rep(i, 0, n)cin >> v[i];}
 void solve();
 int main()
@@ -40,7 +56,7 @@ int main()
 #endif
 
 	int __ = 1;
-	cin >> __;
+	// cin >> __;
 	while (__--) {
 		solve();
 	}
@@ -48,36 +64,30 @@ int main()
 	cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl;
 	return 0;
 }
+
+bool check(ll s, double n, ll w, ll h) {
+	double x = s / w;
+	double y = s / h;
+	return x >= n / y;
+}
 void solve()
 {
-	ll n;
-	cin >> n;
-	string e, c;
-	cin >> e >> c;
-	ll cnt2 = 0, cnt10 = 0, cnt01 = 0, cnt0 = 0;
-	ll ans = 0;
-	rep(i, 0, n) {
-		if (e[i] == '1' and c[i] == '1') {
-			cnt2++;
-		} else if (e[i] == '0' and c[i] == '0') {
-			cnt0++;
-		} else if (e[i] == '1') {
-			cnt10++;
+	ll n, w, h;
+	cin >> w >> h >> n;
+	ll l = 1, r = 1e18, ans = 1e18;
+
+	while (l <= r) {
+		ll mid = r - (r - l) / 2ll;
+
+		if (check(mid, n, w, h)) {
+			ans = mid;
+			r = mid - 1;
 		} else {
-			cnt01++;
+			l = mid + 1;
 		}
 	}
-	ans += min(cnt2, cnt0);
-	cnt2 -= ans;
-	ll temp = min(cnt10, cnt01);
-	ans += temp;
-	cnt01 -= temp;
-	cnt10 -= temp;
 
-	ans += min(cnt10, cnt2);
-	cnt2 -= min(cnt10, cnt2);
-	ans += min(cnt01, cnt2);
-	cnt2 -= min(cnt01, cnt2);
-	ans += cnt2 / 2;
+
 	cout << ans << endl;
+
 }

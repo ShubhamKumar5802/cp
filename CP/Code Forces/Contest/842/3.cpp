@@ -68,29 +68,37 @@ void solve()
 {
 	ll n;
 	cin >> n;
-	vpll v(n);
+	vll v(n);
+	get(v, n);
+	vpll v1;
 	rep(i, 0, n) {
-		cin >> v[i].F;
-		cin >> v[i].S;
+		v1.pb({v[i], i});
 	}
-	ll ans = 0, l = 0, r = n;
-	auto check = [&](ll people) {
-		ll invited = 0;
-		rep(i, 0, n) {
-			if (v[i].F  >= (people - invited - 1) and v[i].S >= invited) {
-				invited++;
+	sort(allr(v1));
+	multiset<ll>mst;
+	rep(i, 1, n + 1)mst.insert(i);
+
+	ll ans[2][n];
+	rep(i, 0, n) {
+		ans[0][v1[i].S] = v1[i].F;
+		if (mst.count(v1[i].F)) {
+			ans[1][v1[i].S] = v1[i].F;
+			mst.erase(v1[i].F);
+		} else {
+			if (*mst.rbegin() <= v1[i].F) {
+				ans[1][v1[i].S] = *mst.rbegin();
+				mst.erase(ans[1][v1[i].S]);
+			} else {
+				cout << "NO" << endl;
+				return;
 			}
 		}
-		return invited >= people;
-	};
-	while (l <= r) {
-		ll mid = r - (r - l) / 2;
-		if (check(mid)) {
-			ans = mid;
-			l = mid + 1;
-		} else {
-			r = mid - 1;
-		}
 	}
-	cout << ans << endl;
+	cout << "YES" << endl;
+	rep(i, 0, 2) {
+		rep(j, 0, n) {
+			cout << ans[i][j] << " ";
+		}
+		cout << endl;
+	}
 }
