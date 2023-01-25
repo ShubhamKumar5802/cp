@@ -45,6 +45,8 @@ ll mod_div(ll a, ll b, ll m) {a = a % m; b = b % m; return (mod_mul(a, mminvprim
 
 void get(vll &v, ll n) {rep(i, 0, n)cin >> v[i];}
 void solve();
+vector<int>isPrime;
+void sieve(ll n) {isPrime.resize(n, 1); for (int i = 2; i * i < n; i++) {if (isPrime[i]) {for (int j = i * i; j < n; j += i) {isPrime[j] = 0;}}}}
 int main()
 {
 	ios_base::sync_with_stdio(false);
@@ -57,6 +59,7 @@ int main()
 
 	int __ = 1;
 	// cin >> __;
+	sieve(200001);
 	while (__--) {
 		solve();
 	}
@@ -64,43 +67,30 @@ int main()
 	cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl;
 	return 0;
 }
-vvll ans(200001);
-ll idx = 0;
-ll bs(ll x) {
-	ll l = 0, r = idx;
-	ll ans1 = idx + 1;
-	while (l <= r) {
-		ll mid = (l + r) / 2;
-		if (sz(ans[mid]) == 0) {
-			return mid;
-		}
-		if (ans[mid].back() <= x) {
-			ans1 = mid;
-			r = mid - 1;
-		} else {
-			l = mid + 1;
-		}
-	}
-	return ans1;
-}
 void solve()
 {
-	ll n;
-	cin >> n;
-	vll v(n);
-	get(v, n);
-
-	rep(i, 0, n) {
-		ll id = bs(v[i]);
-		ans[id].push_back(v[i]);
-		idx = max(idx, id);
-	}
-
-	rep(i, 0, idx + 1) {
-		rep(j, 0, sz(ans[i])) {
-			cout << ans[i][j] << " ";
+	ll n, k;
+	cin >> n >> k;
+	vll v;
+	rep(i, 2, n + 1) {
+		if (isPrime[i]) {
+			while (n > 1) {
+				if (k == 1) {
+					v.pb(n);
+					print1D(v);
+					cout << endl;
+					return;
+				}
+				if (n % i == 0) {
+					n /= i;
+					k--;
+					v.pb(i);
+				} else {
+					break;
+				}
+			}
+			if (n <= 1)break;
 		}
-		cout << endl;
 	}
-
+	cout << "-1" << endl;
 }

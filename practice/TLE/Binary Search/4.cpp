@@ -28,7 +28,6 @@ typedef vector<pll> vpll;
 
 const long long MOD = 1e9 + 7;
 const double PI = 3.14159265358979323846264338327950288419;
-vector<int>isPrime;
 template<typename T>
 void print1D(vector<T> nums) {for (int i = 0; i < sz(nums) - 1; i++)cout << nums[i] << " "; if (sz(nums))cout << nums[nums.size() - 1];}
 template <typename T>
@@ -43,7 +42,7 @@ ll mod_add(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a + b) % m) + m) %
 ll mod_mul(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a * b) % m) + m) % m;}
 ll mod_sub(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a - b) % m) + m) % m;}
 ll mod_div(ll a, ll b, ll m) {a = a % m; b = b % m; return (mod_mul(a, mminvprime(b, m), m) + m) % m;}
-void sieve(ll n) {isPrime.resize(n, 1); for (int i = 2; i * i < n; i++) {if (isPrime[i]) {for (int j = i * i; j < n; j += i) {isPrime[j] = 0;}}}}
+
 void get(vll &v, ll n) {rep(i, 0, n)cin >> v[i];}
 void solve();
 int main()
@@ -55,9 +54,9 @@ int main()
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
-	sieve(2000);
+
 	int __ = 1;
-	// cin >> __;
+	cin >> __;
 	while (__--) {
 		solve();
 	}
@@ -69,19 +68,29 @@ void solve()
 {
 	ll n;
 	cin >> n;
-	unordered_set<ll>us;
-	rep(i, 2, n + 1) {
-		if (isPrime[i]) {
-			ll t = i;
-			while (t <= n) {
-				us.insert(t);
-				t *= i;
+	vpll v(n);
+	rep(i, 0, n) {
+		cin >> v[i].F;
+		cin >> v[i].S;
+	}
+	ll ans = 0, l = 0, r = n;
+	auto check = [&](ll people) {
+		ll invited = 0;
+		rep(i, 0, n) {
+			if (v[i].F  >= (people - invited - 1) and v[i].S >= invited) {
+				invited++;
 			}
-
+		}
+		return invited >= people;
+	};
+	while (l <= r) {
+		ll mid = r - (r - l) / 2;
+		if (check(mid)) {
+			ans = mid;
+			l = mid + 1;
+		} else {
+			r = mid - 1;
 		}
 	}
-	cout << sz(us) << endl;
-	for (auto &e : us) {
-		cout << e << " ";
-	}
+	cout << ans << endl;
 }

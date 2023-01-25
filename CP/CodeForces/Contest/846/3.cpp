@@ -26,8 +26,9 @@ typedef pair<ll, ll> pll;
 typedef vector<pii> vpii;
 typedef vector<pll> vpll;
 
-const long long MOD = 998244353;
+const long long MOD = 1e9 + 7;
 const double PI = 3.14159265358979323846264338327950288419;
+vector<int>isPrime;
 template<typename T>
 void print1D(vector<T> nums) {for (int i = 0; i < sz(nums) - 1; i++)cout << nums[i] << " "; if (sz(nums))cout << nums[nums.size() - 1];}
 template <typename T>
@@ -42,7 +43,7 @@ ll mod_add(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a + b) % m) + m) %
 ll mod_mul(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a * b) % m) + m) % m;}
 ll mod_sub(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a - b) % m) + m) % m;}
 ll mod_div(ll a, ll b, ll m) {a = a % m; b = b % m; return (mod_mul(a, mminvprime(b, m), m) + m) % m;}
-
+void sieve(ll n) {isPrime.resize(n, 1); for (int i = 2; i * i < n; i++) {if (isPrime[i]) {for (int j = i * i; j < n; j += i) {isPrime[j] = 0;}}}}
 void get(vll &v, ll n) {rep(i, 0, n)cin >> v[i];}
 void solve();
 int main()
@@ -54,9 +55,9 @@ int main()
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
-
+	//sieve(200001);
 	int __ = 1;
-	// cin >> __;
+	cin >> __;
 	while (__--) {
 		solve();
 	}
@@ -66,11 +67,43 @@ int main()
 }
 void solve()
 {
-	ll n, m;
-	cin >> n >> m;
-	// vll v(n);
-	n += m;
-	ll ans = power(2ll, n);
-	cout << ans << endl;
-	//get(v, n);
+	ll n;
+	cin >> n;
+	vll v(n);
+	get(v, n);
+
+	vpll odd, even;
+	rep(i, 0, n) {
+		if (v[i] % 2 == 0) {
+			even.pb({v[i], i + 1});
+		} else {
+			odd.pb({v[i], i + 1});
+		}
+	}
+	vll ans;
+	if (odd.size() == 0) {
+		cout << "NO" << endl;
+	} else {
+		if (odd.size() >= 3) {
+			while (ans.size() < 3) {
+				ans.pb(odd.back().S);
+				odd.pop_back();
+			}
+		} else {
+			ans.push_back(odd.back().S);
+		}
+		while (ans.size() < 3 and even.size()) {
+			ans.pb(even.back().S);
+			even.pop_back();
+		}
+		if (ans.size() == 3) {
+			cout << "YES" << endl;
+			sort(all(ans));
+			print1D(ans);
+			cout << endl;
+		} else {
+			cout << "NO" << endl;
+		}
+
+	}
 }

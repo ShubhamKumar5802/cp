@@ -55,9 +55,9 @@ int main()
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
-	sieve(2000);
+	//sieve(200001);
 	int __ = 1;
-	// cin >> __;
+	cin >> __;
 	while (__--) {
 		solve();
 	}
@@ -67,21 +67,30 @@ int main()
 }
 void solve()
 {
-	ll n;
-	cin >> n;
-	unordered_set<ll>us;
-	rep(i, 2, n + 1) {
-		if (isPrime[i]) {
-			ll t = i;
-			while (t <= n) {
-				us.insert(t);
-				t *= i;
-			}
+	ll n, m;
+	cin >> n >> m;
+	vll a(n), c(m);
+	get(a, n);
+	get(c, m);
 
+	unordered_map<ll, ll>um;
+	rep(i, 0, n) {
+		um[a[i]]++;
+	}
+	priority_queue<ll> pq;
+	for (auto &p : um) {
+		pq.push(p.S);
+	}
+	sort(allr(c));
+	ll ans = 0;
+	rep(i, 0, m) {
+		if (pq.empty())break;
+		ll curr = pq.top(); pq.pop();
+		ll cans = min(curr, c[i]);
+		if (curr > cans) {
+			pq.push(curr - cans);
 		}
+		ans += cans;
 	}
-	cout << sz(us) << endl;
-	for (auto &e : us) {
-		cout << e << " ";
-	}
+	cout << ans << endl;
 }

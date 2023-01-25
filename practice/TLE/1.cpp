@@ -26,7 +26,7 @@ typedef pair<ll, ll> pll;
 typedef vector<pii> vpii;
 typedef vector<pll> vpll;
 
-const long long MOD = 1e9 + 7;
+const long long MOD = 998244353;
 const double PI = 3.14159265358979323846264338327950288419;
 template<typename T>
 void print1D(vector<T> nums) {for (int i = 0; i < sz(nums) - 1; i++)cout << nums[i] << " "; if (sz(nums))cout << nums[nums.size() - 1];}
@@ -64,30 +64,13 @@ int main()
 	cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl;
 	return 0;
 }
-
-bool check(ll s, double n, ll w, ll h) {
-	double x = s / w;
-	double y = s / h;
-	return x >= n / y;
-}
 void solve()
 {
-	ll n, w, h;
-	cin >> w >> h >> n;
-	ll l = 1, r = 1e18, ans = 1e18;
-
-	while (l <= r) {
-		ll mid = r - (r - l) / 2ll;
-
-		if (check(mid, n, w, h)) {
-			ans = mid;
-			r = mid - 1;
-		} else {
-			l = mid + 1;
-		}
-	}
-
-
+	ll n, m;
+	cin >> n >> m;
+	// vll v(n);
+	n += m;
+	ll ans = power(2ll, n);
 	cout << ans << endl;
-
+	//get(v, n);
 }

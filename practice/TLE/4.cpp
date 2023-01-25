@@ -66,31 +66,12 @@ int main()
 }
 void solve()
 {
-	ll n;
-	cin >> n;
-	vpll v(n);
-	rep(i, 0, n) {
-		cin >> v[i].F;
-		cin >> v[i].S;
+	ll x, y;
+	cin >> x >> y;
+	if (y % x == 0)cout << x << endl;
+	else if (x > y) {
+		cout << (x + y) << endl;
+	} else {
+		cout << ((y / x)*x + (y % x) / 2ll) << endl;
 	}
-	ll ans = 0, l = 0, r = n;
-	auto check = [&](ll people) {
-		ll invited = 0;
-		rep(i, 0, n) {
-			if (v[i].F  >= (people - invited - 1) and v[i].S >= invited) {
-				invited++;
-			}
-		}
-		return invited >= people;
-	};
-	while (l <= r) {
-		ll mid = r - (r - l) / 2;
-		if (check(mid)) {
-			ans = mid;
-			l = mid + 1;
-		} else {
-			r = mid - 1;
-		}
-	}
-	cout << ans << endl;
 }

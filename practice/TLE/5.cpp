@@ -56,7 +56,7 @@ int main()
 #endif
 
 	int __ = 1;
-	cin >> __;
+	// cin >> __;
 	while (__--) {
 		solve();
 	}
@@ -66,26 +66,17 @@ int main()
 }
 void solve()
 {
-	ll n, k;
-	cin >> n >> k;
-	vll v(n);
-	get(v, n);
-
-	sort(all(v));
-
-	ll sum = accumulate(all(v), 0ll), ans = 0;
-
-	for (int i = n - 1; i > 0; i--) {
-		if (sum <= k) {
-			cout << ans << endl;
-			return;
-		}
-		ans++;
-		sum -= (v[i] - v[0]);
+	ll n, m;
+	cin >> n >> m;
+	vll a(n), b(m);
+	get(a, n);
+	ll pre = 0;
+	sort(all(a));
+	rep(i, 1, n) {
+		pre = gcd(pre, a[i] - a[0]);
 	}
-	ans += max(0ll,  sum - k);
-
-	cout << ans << endl;
-
-
+	rep(i, 0, m) {
+		cin >> b[i];
+		cout << gcd(a[0] + b[i], pre) << " ";
+	}
 }

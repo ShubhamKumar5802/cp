@@ -28,7 +28,6 @@ typedef vector<pll> vpll;
 
 const long long MOD = 1e9 + 7;
 const double PI = 3.14159265358979323846264338327950288419;
-vector<int>isPrime;
 template<typename T>
 void print1D(vector<T> nums) {for (int i = 0; i < sz(nums) - 1; i++)cout << nums[i] << " "; if (sz(nums))cout << nums[nums.size() - 1];}
 template <typename T>
@@ -43,7 +42,7 @@ ll mod_add(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a + b) % m) + m) %
 ll mod_mul(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a * b) % m) + m) % m;}
 ll mod_sub(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a - b) % m) + m) % m;}
 ll mod_div(ll a, ll b, ll m) {a = a % m; b = b % m; return (mod_mul(a, mminvprime(b, m), m) + m) % m;}
-void sieve(ll n) {isPrime.resize(n, 1); for (int i = 2; i * i < n; i++) {if (isPrime[i]) {for (int j = i * i; j < n; j += i) {isPrime[j] = 0;}}}}
+
 void get(vll &v, ll n) {rep(i, 0, n)cin >> v[i];}
 void solve();
 int main()
@@ -55,7 +54,7 @@ int main()
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
-	sieve(2000);
+
 	int __ = 1;
 	// cin >> __;
 	while (__--) {
@@ -65,23 +64,34 @@ int main()
 	cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl;
 	return 0;
 }
+
 void solve()
 {
-	ll n;
-	cin >> n;
-	unordered_set<ll>us;
-	rep(i, 2, n + 1) {
-		if (isPrime[i]) {
-			ll t = i;
-			while (t <= n) {
-				us.insert(t);
-				t *= i;
-			}
-
+	ll n, sum;
+	cin >> n >> sum;
+	vll v;
+	rep(i, 0, n) {
+		ll a, b;
+		cin >> a >> b;
+		rep(k, 0, b) {
+			v.pb(a);
 		}
 	}
-	cout << sz(us) << endl;
-	for (auto &e : us) {
-		cout << e << " ";
+	ll n1 = sz(v);
+	vvll dp(n1 + 1, vll(sum + 1, 0));
+	rep(i, 0, n1 + 1)dp[i][0] = 1;
+	rep(i, 1, n1 + 1) {
+		rep(j, 1, sum + 1) {
+			if (j >= v[i - 1]) {
+				dp[i][j] = dp[i - 1][j - v[i - 1]] or dp[i - 1][j];
+			} else {
+				dp[i][j] = dp[i - 1][j];
+			}
+		}
+	}
+	if (dp[n1][sum]) {
+		cout << "Yes" << endl;
+	} else {
+		cout << "No" << endl;
 	}
 }

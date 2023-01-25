@@ -56,7 +56,7 @@ int main()
 #endif
 
 	int __ = 1;
-	// cin >> __;
+	cin >> __;
 	while (__--) {
 		solve();
 	}
@@ -64,32 +64,16 @@ int main()
 	cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl;
 	return 0;
 }
-ll n, k;
-vll v;
-bool check(double x) {
-	ll cnt = 0;
-	for (int i = 0; i < n; i++ ) {
-		cnt += v[i] / x;
-	}
-	return cnt >= k;
-}
 void solve()
 {
-	cin >> n >> k;
-	v.resize(n);
-	get(v, n);
+	ll a, b;
+	cin >> a >> b;
+	// vll v(n);
+	ll mul = a * b;
+	if (mul % a == b % mul) {
+		cout << mul << endl;
+	} else {
 
-	double l = 0.0, r = 1e9, ans = 0;
-	ll itr = 1000;
-	while (itr--) {
-		double mid = r - (r - l) / 2;
-		if (check(mid)) {
-			ans = mid;
-			l = mid ;
-		} else {
-			r = mid ;
-		}
 	}
-	cout << setprecision(20) << ans << endl;
-
+	//get(v, n);
 }

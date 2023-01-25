@@ -66,33 +66,25 @@ int main()
 }
 void solve()
 {
-	ll n, k;
-	cin >> n >> k;
-	vll s(n);
-	get(s, n);
-
-	sort(s.begin(), s.end());
-	int ans = 0, l = 0, r = 1e9;
-	auto check = [&](int x) {
-		int cnt = 1;
-		int l = s[0];
-		for (int i = 1; i < s.size(); i++) {
-			if (s[i] - l >= x) {
-				cnt++;
-				l = s[i];
-			}
+	ll n;
+	cin >> n;
+	vll v(n);
+	get(v, n);
+	ll sz1 = *max_element(all(v));
+	ll fact[sz1 + 1] = {0};
+	rep(i, 0, n) {
+		fact[v[i]]++;
+	}
+	for (int i = sz1; i > 1; i--) {
+		ll cnt = 0;
+		for (int j = i; j <= sz1; j += i) {
+			cnt += fact[j];
 		}
-		return cnt >= k;
-	};
-	while (l <= r) {
-		int mid = r - (r - l) / 2;
-		if (check(mid)) {
-			ans = mid;
-			l = mid + 1;
-		} else {
-			r = mid - 1;
+		if (cnt > 1) {
+			cout << i << endl;
+			return;
 		}
 	}
-	cout << ans;
+	cout << 1 << endl;
 
 }

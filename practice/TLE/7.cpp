@@ -56,61 +56,35 @@ int main()
 #endif
 
 	int __ = 1;
-	cin >> __;
+	// cin >> __;
 	while (__--) {
-		// char c;
-		// cin >> c;
 		solve();
 	}
 
 	cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl;
 	return 0;
 }
-
-bool check(ll x, vvll &v) {
-	vll fnd(sz(v[0]));
-	bool found = false;
-	rep(i, 0, sz(v)) {
-		ll cnt = 0;
-		rep(j, 0, sz(v[0])) {
-			if (v[i][j] >= x) {
-				fnd[j]++;
-				cnt++;
-			}
-		}
-		if (cnt > 1)found = true;
-	}
-	if (!found)return false;
-	rep(i, 0, sz(v[0])) {
-		if (fnd[i] == 0)return false;
-	}
-	return true;
-}
-
 void solve()
 {
-	ll n, m;
-	cin >> m >> n;
-	vvll v;
-	rep(i, 0, m) {
-		vll tv;
-		rep(j , 0 , n) {
-			ll t;
-			cin >> t;
-			tv.pb(t);
-		}
-		v.pb(tv);
+	ll a, b;
+	cin >> a >> b;
+	vll v;
+	int fact[300001] = {0};
+	//get(v, n);
+	rep(i, a, b + 1) {
+		v.pb(i);
+		fact[i]++;
 	}
-	ll l = 1, r = 1e9;
-	ll ans = 1;
-	while (l <= r) {
-		ll mid = (l + r) / 2;
-		if (check(mid, v)) {
-			ans = mid;
-			l = mid + 1;
-		} else {
-			r = mid - 1;
+	for (int i = 200000; i >= 2; i--) {
+		int cnt = 0;
+		for (int j = i; j <= 200000; j += i) {
+			cnt += fact[j];
+		}
+		if (cnt > 1) {
+			cout << i << endl;
+			return;
 		}
 	}
-	cout << ans << endl;
+	cout << "1" << endl;
+	return;
 }
