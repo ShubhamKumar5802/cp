@@ -18,6 +18,7 @@ typedef long long ll;
 typedef unsigned long long ull;
 typedef vector<int> vi;
 typedef vector<char> vc;
+typedef vector<string> vs;
 typedef vector<vi> vvi;
 typedef vector<ll> vll;
 typedef vector<vll> vvll;
@@ -44,54 +45,50 @@ ll mod_mul(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a * b) % m) + m) %
 ll mod_sub(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a - b) % m) + m) % m;}
 ll mod_div(ll a, ll b, ll m) {a = a % m; b = b % m; return (mod_mul(a, mminvprime(b, m), m) + m) % m;}
 void sieve(ll n) {isPrime.resize(n, 1); for (int i = 2; i * i < n; i++) {if (isPrime[i]) {for (int j = i * i; j < n; j += i) {isPrime[j] = 0;}}}}
-void get(vll &v, ll n) {rep(i, 0, n)cin >> v[i];}
+template <typename T>
+void get(vector<T> &v, ll n) {rep(i, 0, n)cin >> v[i];}
 void solve();
 int main()
 {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
 
 #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
 #endif
-    //sieve(200001);
-    int __ = 1;
-    cin >> __;
-    while (__--) {
-        solve();
-    }
+	//sieve(200001);
+	int __ = 1;
+	// cin >> __;
+	while (__--) {
+		solve();
+	}
 
-    cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl;
-    return 0;
+	cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl;
+	return 0;
 }
 void solve()
 {
-    ll n;
-    cin >> n;
-    // vll v(n);
-    //get(v, n);
-    ll a, b, c;
-    ll on = n;
-    for (int i = 2; i * i <= n; i++) {
-        if (n % i == 0) {
-            n /= i;
-            a = i;
-            break;
-        }
-    }
-    for (int i = a + 1; i * i <= n; i++) {
-        if (n % i == 0) {
-            n /= i;
-            b = i;
-            break;
-        }
-    }
-    c = n;
-    if (a * b * c == on and c != a and c != b) {
-        cout << "YES" << endl;
-        cout << a << " " << b << " " << c << endl;
-    } else {
-        cout << "NO" << endl;
-    }
+	ll n, m;
+	cin >> n;
+	cin >> m;
+	// vll v(n);
+	//get(v, n);
+
+	vvi dp(n + 1, vi(m + 1, 1e9));
+	for (int i = 1; i <= n; i++) {
+		for (int j = 1; j <= m; j++) {
+			if (i == j)dp[i][j] = 0;
+			else {
+				for (int k = 1; k <= j; k++) {
+					dp[i][j] = min(dp[i][j], 1 + dp[i][j - k] + dp[i][k]);
+				}
+				for (int k = 1; k <= i; k++) {
+					dp[i][j] = min(dp[i][j], 1 + dp[k][j] + dp[i - k][j]);
+				}
+			}
+		}
+	}
+	// print2D(dp);
+	cout << dp[n][m] << endl;
 }

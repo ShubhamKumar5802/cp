@@ -18,6 +18,7 @@ typedef long long ll;
 typedef unsigned long long ull;
 typedef vector<int> vi;
 typedef vector<char> vc;
+typedef vector<string> vs;
 typedef vector<vi> vvi;
 typedef vector<ll> vll;
 typedef vector<vll> vvll;
@@ -28,6 +29,7 @@ typedef vector<pll> vpll;
 
 const long long MOD = 1e9 + 7;
 const double PI = 3.14159265358979323846264338327950288419;
+vector<int>isPrime;
 template<typename T>
 void print1D(vector<T> nums) {for (int i = 0; i < sz(nums) - 1; i++)cout << nums[i] << " "; if (sz(nums))cout << nums[nums.size() - 1];}
 template <typename T>
@@ -42,8 +44,9 @@ ll mod_add(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a + b) % m) + m) %
 ll mod_mul(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a * b) % m) + m) % m;}
 ll mod_sub(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a - b) % m) + m) % m;}
 ll mod_div(ll a, ll b, ll m) {a = a % m; b = b % m; return (mod_mul(a, mminvprime(b, m), m) + m) % m;}
-
-void get(vll &v, ll n) {rep(i, 0, n)cin >> v[i];}
+void sieve(ll n) {isPrime.resize(n, 1); for (int i = 2; i * i < n; i++) {if (isPrime[i]) {for (int j = i * i; j < n; j += i) {isPrime[j] = 0;}}}}
+template <typename T>
+void get(vector<T> &v, ll n) {rep(i, 0, n)cin >> v[i];}
 void solve();
 int main()
 {
@@ -54,7 +57,7 @@ int main()
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
-
+	//sieve(200001);
 	int __ = 1;
 	// cin >> __;
 	while (__--) {
@@ -67,16 +70,21 @@ int main()
 void solve()
 {
 	ll n, m;
-	cin >> n >> m;
-	vll a(n), b(m);
-	get(a, n);
-	ll pre = 0;
-	sort(all(a));
-	rep(i, 1, n) {
-		pre = gcd(pre, a[i] - a[0]);
+	cin >> n;
+	cin >> m;
+	vi p(n), pg(n);
+	get(p, n);
+	get(pg, n);
+	vvi dp(n + 1, vi(m + 1));
+	rep(i, 1, n + 1) {
+		rep(j, 0, m  + 1) {
+			if (j >= p[i - 1]) {
+				dp[i][j] = max((pg[i - 1] + dp[i - 1][j - p[i - 1]]), dp[i - 1][j]);
+			} else {
+				dp[i][j] = dp[i - 1][j];
+			}
+		}
 	}
-	rep(i, 0, m) {
-		cin >> b[i];
-		cout << gcd(a[0] + b[i], pre) << " ";
-	}
+	cout << dp[n][m] << endl;
+
 }

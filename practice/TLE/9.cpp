@@ -18,6 +18,7 @@ typedef long long ll;
 typedef unsigned long long ull;
 typedef vector<int> vi;
 typedef vector<char> vc;
+typedef vector<string> vs;
 typedef vector<vi> vvi;
 typedef vector<ll> vll;
 typedef vector<vll> vvll;
@@ -44,7 +45,8 @@ ll mod_mul(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a * b) % m) + m) %
 ll mod_sub(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a - b) % m) + m) % m;}
 ll mod_div(ll a, ll b, ll m) {a = a % m; b = b % m; return (mod_mul(a, mminvprime(b, m), m) + m) % m;}
 void sieve(ll n) {isPrime.resize(n, 1); for (int i = 2; i * i < n; i++) {if (isPrime[i]) {for (int j = i * i; j < n; j += i) {isPrime[j] = 0;}}}}
-void get(vll &v, ll n) {rep(i, 0, n)cin >> v[i];}
+template <typename T>
+void get(vector<T> &v, ll n) {rep(i, 0, n)cin >> v[i];}
 void solve();
 int main()
 {
@@ -55,7 +57,7 @@ int main()
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
-	sieve(2000);
+	//sieve(200001);
 	int __ = 1;
 	// cin >> __;
 	while (__--) {
@@ -67,21 +69,31 @@ int main()
 }
 void solve()
 {
-	ll n;
+	ll n, m = 1e5;
 	cin >> n;
-	unordered_set<ll>us;
-	rep(i, 2, n + 1) {
-		if (isPrime[i]) {
-			ll t = i;
-			while (t <= n) {
-				us.insert(t);
-				t *= i;
+	//cin>>m;
+	vll v(n);
+	get(v, n);
+	vvi dp(n + 1, vi(m + 1));
+	rep(i, 0, n + 1)dp[i][0] = 1;
+	rep(i, 1, n + 1) {
+		rep(j, 0, m + 1) {
+			if (j >= v[i - 1]) {
+				dp[i][j] = dp[i - 1][j - v[i - 1]] or dp[i - 1][j];
+			} else {
+				dp[i][j] = dp[i - 1][j];
 			}
-
 		}
 	}
-	cout << sz(us) << endl;
-	for (auto &e : us) {
-		cout << e << " ";
+	vector<int>ans;
+	int cnt = 0;
+	for (int i = 1; i <= m; i++) {
+		if (dp[n][i]) {
+			cnt++;
+			ans.pb(i);
+		}
 	}
+	cout << cnt << endl;
+	print1D(ans);
+	cout << endl;
 }

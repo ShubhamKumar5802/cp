@@ -18,6 +18,7 @@ typedef long long ll;
 typedef unsigned long long ull;
 typedef vector<int> vi;
 typedef vector<char> vc;
+typedef vector<string> vs;
 typedef vector<vi> vvi;
 typedef vector<ll> vll;
 typedef vector<vll> vvll;
@@ -28,6 +29,7 @@ typedef vector<pll> vpll;
 
 const long long MOD = 1e9 + 7;
 const double PI = 3.14159265358979323846264338327950288419;
+vector<int>isPrime;
 template<typename T>
 void print1D(vector<T> nums) {for (int i = 0; i < sz(nums) - 1; i++)cout << nums[i] << " "; if (sz(nums))cout << nums[nums.size() - 1];}
 template <typename T>
@@ -42,8 +44,9 @@ ll mod_add(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a + b) % m) + m) %
 ll mod_mul(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a * b) % m) + m) % m;}
 ll mod_sub(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a - b) % m) + m) % m;}
 ll mod_div(ll a, ll b, ll m) {a = a % m; b = b % m; return (mod_mul(a, mminvprime(b, m), m) + m) % m;}
-
-void get(vll &v, ll n) {rep(i, 0, n)cin >> v[i];}
+void sieve(ll n) {isPrime.resize(n, 1); for (int i = 2; i * i < n; i++) {if (isPrime[i]) {for (int j = i * i; j < n; j += i) {isPrime[j] = 0;}}}}
+template <typename T>
+void get(vector<T> &v, ll n) {rep(i, 0, n)cin >> v[i];}
 void solve();
 int main()
 {
@@ -54,7 +57,7 @@ int main()
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
-
+	//sieve(200001);
 	int __ = 1;
 	// cin >> __;
 	while (__--) {
@@ -66,25 +69,20 @@ int main()
 }
 void solve()
 {
-	ll a, b;
-	cin >> a >> b;
-	vll v;
-	int fact[300001] = {0};
-	//get(v, n);
-	rep(i, a, b + 1) {
-		v.pb(i);
-		fact[i]++;
-	}
-	for (int i = 200000; i >= 2; i--) {
-		int cnt = 0;
-		for (int j = i; j <= 200000; j += i) {
-			cnt += fact[j];
-		}
-		if (cnt > 1) {
-			cout << i << endl;
-			return;
+	string s1, s2;
+	cin >> s1 >> s2;
+	int n = sz(s1), m = sz(s2);
+	vvi dp(n + 1, vi(m + 1, 1e9));
+	dp[0][0] = 0;
+	rep(i, 0, n + 1)dp[i][0] = i;
+	rep(i, 0, m + 1)dp[0][i] = i;
+	rep(i, 1, n + 1) {
+		rep(j, 1, m + 1) {
+			if (s1[i - 1] == s2[j - 1]) {
+				dp[i][j] = dp[i - 1][j - 1];
+			} else
+				dp[i][j] = 1 + min({dp[i - 1][j], dp[i - 1][j - 1], dp[i][j - 1]});
 		}
 	}
-	cout << "1" << endl;
-	return;
+	cout << dp[n][m] << endl;
 }

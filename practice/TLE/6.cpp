@@ -18,6 +18,7 @@ typedef long long ll;
 typedef unsigned long long ull;
 typedef vector<int> vi;
 typedef vector<char> vc;
+typedef vector<string> vs;
 typedef vector<vi> vvi;
 typedef vector<ll> vll;
 typedef vector<vll> vvll;
@@ -28,6 +29,7 @@ typedef vector<pll> vpll;
 
 const long long MOD = 1e9 + 7;
 const double PI = 3.14159265358979323846264338327950288419;
+vector<int>isPrime;
 template<typename T>
 void print1D(vector<T> nums) {for (int i = 0; i < sz(nums) - 1; i++)cout << nums[i] << " "; if (sz(nums))cout << nums[nums.size() - 1];}
 template <typename T>
@@ -42,11 +44,10 @@ ll mod_add(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a + b) % m) + m) %
 ll mod_mul(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a * b) % m) + m) % m;}
 ll mod_sub(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a - b) % m) + m) % m;}
 ll mod_div(ll a, ll b, ll m) {a = a % m; b = b % m; return (mod_mul(a, mminvprime(b, m), m) + m) % m;}
-
-void get(vll &v, ll n) {rep(i, 0, n)cin >> v[i];}
-void solve();
-vector<int>isPrime;
 void sieve(ll n) {isPrime.resize(n, 1); for (int i = 2; i * i < n; i++) {if (isPrime[i]) {for (int j = i * i; j < n; j += i) {isPrime[j] = 0;}}}}
+template <typename T>
+void get(vector<T> &v, ll n) {rep(i, 0, n)cin >> v[i];}
+void solve();
 int main()
 {
 	ios_base::sync_with_stdio(false);
@@ -56,10 +57,9 @@ int main()
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
-
+	//sieve(200001);
 	int __ = 1;
 	// cin >> __;
-	sieve(200001);
 	while (__--) {
 		solve();
 	}
@@ -69,28 +69,25 @@ int main()
 }
 void solve()
 {
-	ll n, k;
-	cin >> n >> k;
-	vll v;
-	rep(i, 2, n + 1) {
-		if (isPrime[i]) {
-			while (n > 1) {
-				if (k == 1) {
-					v.pb(n);
-					print1D(v);
-					cout << endl;
-					return;
-				}
-				if (n % i == 0) {
-					n /= i;
-					k--;
-					v.pb(i);
-				} else {
-					break;
-				}
-			}
-			if (n <= 1)break;
+	ll n, m;
+	cin >> n;
+	//cin>>m;
+	// vll v(n);
+	//get(v, n);
+	vi dp(n + 1, 1e9);
+	rep(i, 1, 10)dp[i] = 1;
+	dp[0] = 0;
+	rep(i, 10, n + 1) {
+		vi digits;
+		int t = i;
+		while (t) {
+			digits.pb(t % 10);
+			t /= 10;
 		}
+		rep(j, 0, sz(digits)) {
+			dp[i] = min(dp[i], dp[i - digits[j]]);
+		}
+		dp[i]++;
 	}
-	cout << "-1" << endl;
+	cout << dp[n] << endl;
 }
